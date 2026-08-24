@@ -16,16 +16,16 @@ document.getElementById("site-header").innerHTML = `
       <a class="nav-brand" href="index.html">
         <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
       </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="race.html">Race</a>
+        <a href="events.html">Events</a>
+        <a href="about.html">About</a>
+      </nav>
       <div class="sponsor-slot">
         <img src="assets/cook-costello-logo.png" alt="Cook Costello, club sponsor">
       </div>
     </div>
-    <nav class="nav-links" aria-label="Main">
-      <a href="index.html">Home</a>
-      <a href="race.html">Race</a>
-      <a href="events.html">Events</a>
-      <a href="about.html">About</a>
-    </nav>
     <div class="nav-scrim"></div>
   </header>
 `;
