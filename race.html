@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Race to Hanmer — Christchurch Irish Golf Society</title>
+<meta name="description" content="Live leaderboard for the Christchurch Irish Golf Society's 2026 Race to Hanmer.">
+<link rel="icon" href="assets/crest.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-bar">
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+    </button>
+    <a class="nav-brand" href="index.html">
+      <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
+      <span class="brand-text">Chch Irish Golf Society</span>
+    </a>
+    <div class="sponsor-slot">
+      <img src="assets/cook-costello-logo.png" alt="Cook Costello, club sponsor">
+    </div>
+  </div>
+  <nav class="nav-links" aria-label="Main">
+    <a href="index.html">Home</a>
+    <a href="race.html" class="is-active">Race</a>
+    <a href="events.html">Events</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="nav-scrim"></div>
+</header>
+
+<main id="main">
+  <section class="race-hero">
+    <div class="container">
+      <p class="eyebrow">2026 Season</p>
+      <h1>Race to Hanmer</h1>
+      <p>Best six event scores across the season, plus your score at Hanmer Springs in November, decide the winner.</p>
+      <p class="race-sponsor-line">Kindly sponsored by Cook Costello.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:28px">
+    <div class="container">
+      <div class="race-controls">
+        <input type="search" id="race-search" placeholder="Find a player…" aria-label="Search players">
+      </div>
+      <p class="race-status" id="race-status">Loading leaderboard…</p>
+      <div class="legend" id="race-legend"></div>
+
+      <ul class="leaderboard" id="leaderboard" style="list-style:none;margin:0;padding:0"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/crest.png" alt="">
+        <span>Chch Irish Golf Society</span>
+      </div>
+      <div class="social-row">
+        <a class="social-pill" href="https://www.facebook.com/" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Facebook</a>
+        <a class="social-pill" href="https://www.instagram.com/" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Instagram</a>
+        <a class="social-pill" href="mailto:info@chchirishgolf.co.nz" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Email</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Christchurch Irish Golf Society. Kindly sponsored by Cook Costello.</span>
+      <span><a href="race.html">Race to Hanmer</a> · <a href="events.html">Events</a> · <a href="about.html">About</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/sheet.js"></script>
+<script src="js/race.js"></script>
+</body>
+</html>
