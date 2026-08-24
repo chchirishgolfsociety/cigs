@@ -448,72 +448,107 @@ section + section { border-top: 1px solid var(--line); }
   color: var(--text-dim);
 }
 
-.leaderboard {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.lb-row {
-  display: grid;
-  grid-template-columns: 34px 1fr auto;
-  gap: 14px;
-  align-items: center;
-  background: var(--white);
+.leaderboard-table-wrap {
+  overflow-x: auto;
   border: 1px solid var(--line-soft);
   border-radius: 12px;
-  padding: 14px 16px;
+  background: var(--white);
 }
-.lb-row.is-top3 { border-color: var(--gold); background: #fffaf0; }
 
-.lb-rank {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: var(--navy);
+.leaderboard-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 10px 12px;
   text-align: center;
-}
-.lb-row.is-top3 .lb-rank { color: var(--gold); }
-
-.lb-name {
-  font-weight: 700;
-  color: var(--navy);
-  font-size: 0.98rem;
-}
-.lb-stars { color: var(--gold); font-size: 0.85rem; margin-left: 4px; }
-
-.lb-trail {
-  display: flex;
-  gap: 4px;
-  margin-top: 8px;
-}
-.lb-trail .dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--line);
-}
-.lb-trail .dot.played { background: var(--green); }
-.lb-trail .dot.hanmer { background: var(--gold); }
-
-.lb-score {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.4rem;
-  color: var(--navy);
-  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
 }
-.lb-score .unit {
-  font-family: var(--font-body);
-  font-size: 0.68rem;
+
+.leaderboard-table tbody td {
+  color: var(--ink);
   font-weight: 600;
-  color: #8a8f98;
-  display: block;
-  text-align: right;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
+
+.leaderboard-table thead th {
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: none;
+  vertical-align: middle;
+}
+.leaderboard-table thead .th-date {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+.leaderboard-table thead th[data-sort-key] {
+  cursor: pointer;
+  user-select: none;
+}
+.leaderboard-table thead th[data-sort-key]:hover { background: var(--navy-deep); }
+.leaderboard-table thead th.is-sorted { background: var(--green-deep); }
+.leaderboard-table thead th.is-sorted.lb-col-name,
+.leaderboard-table thead th.is-sorted.lb-col-score { background: var(--green-deep); }
+.leaderboard-table .sort-arrow { font-size: 0.65em; margin-left: 3px; opacity: 0.85; }
+
+.leaderboard-table tbody tr { background: var(--white); }
+.leaderboard-table tbody tr.is-top3 { background: #fffaf0; }
+.leaderboard-table tbody tr:last-child td { border-bottom: none; }
+
+/* Player + Score columns stay pinned while the round columns scroll */
+.leaderboard-table .lb-col-name,
+.leaderboard-table .lb-col-score {
+  position: sticky;
+  background: inherit;
+  z-index: 1;
+}
+.leaderboard-table .lb-col-name {
+  left: 0;
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.leaderboard-table .lb-col-score {
+  left: 220px;
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+  font-family: var(--font-display);
+  box-shadow: 3px 0 6px -3px rgba(16, 32, 63, 0.25);
+}
+.leaderboard-table tbody .lb-col-name,
+.leaderboard-table tbody .lb-col-score {
+  color: var(--navy);
+  font-weight: 700;
+}
+.leaderboard-table thead .lb-col-name,
+.leaderboard-table thead .lb-col-score {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.leaderboard-table .lb-col-hanmer { background: rgba(199, 160, 56, 0.1); }
+
+.lb-stars { color: var(--gold); font-size: 0.78rem; margin-left: 4px; white-space: nowrap; }
 
 .legend {
   display: flex;

@@ -24,10 +24,9 @@ as a later phase.
   — a nod to the ✪ symbols already used in the club's own sheet for past
   winners.
 - **Type:** Fraunces (display) + Inter (body/UI), loaded via Google Fonts.
-- **Signature design element:** each leaderboard row shows a small dot
-  "trail" — one dot per event, filled in green once played, gold for the
-  Hanmer finale — a lightweight visual nod to "the Race" instead of a plain
-  score table.
+- **Leaderboard:** a scrollable table mirroring the sheet's own layout —
+  Player and Score columns pinned (sticky) on the left, one column per event
+  scrolling alongside, with the Hanmer column tinted gold.
 - **Data source:** `js/sheet.js` fetches the Race tab of the club's Google
   Sheet directly as CSV (`gviz/tq?tqx=out:csv`) — no API key, no backend.
   Both `race.js` (leaderboard) and `events.js` (calendar) use it. Sheet ID
