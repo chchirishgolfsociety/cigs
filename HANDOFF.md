@@ -40,6 +40,7 @@ race.html            Race to Hanmer leaderboard
 events.html          Event calendar
 about.html            About the society
 css/style.css         All styles (single stylesheet, CSS custom properties for the palette)
+js/layout.js           Shared header + footer markup, injected into every page
 js/main.js            Nav open/close + active-link highlighting
 js/sheet.js            Google Sheet fetch + CSV parser (shared)
 js/race.js              Leaderboard rendering + search
