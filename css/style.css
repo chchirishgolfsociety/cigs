@@ -27,7 +27,7 @@
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --nav-h: 64px;
+  --nav-h: 96px;
   --container: 1120px;
 }
 
@@ -124,19 +124,9 @@ p { line-height: 1.6; }
   text-decoration: none;
 }
 .nav-brand img {
-  height: 40px;
-  width: 40px;
+  height: 80px;
+  width: 80px;
 }
-.nav-brand .brand-text {
-  display: none;
-  color: var(--white);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
-
 .hamburger {
   justify-self: start;
   background: none;
@@ -226,7 +216,6 @@ p { line-height: 1.6; }
     padding: 0 24px;
   }
   .nav-brand { justify-self: start; }
-  .nav-brand .brand-text { display: block; }
   .hamburger { display: none; }
 
   .nav-links {
