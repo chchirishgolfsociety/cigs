@@ -58,9 +58,13 @@ async function fetchRaceData() {
   const csv = await res.text();
   const rows = parseCsv(csv);
 
-  // Find the header row: the one where column B is "PLAYER NAME"
+  // Find the header row: column B ends with "PLAYER NAME" (it may also
+  // carry a title/sponsor banner crammed into the same cell) and column C
+  // is "SCORE".
   const headerIdx = rows.findIndex(
-    (r) => (r[1] || "").trim().toUpperCase() === "PLAYER NAME"
+    (r) =>
+      (r[1] || "").trim().toUpperCase().endsWith("PLAYER NAME") &&
+      (r[2] || "").trim().toUpperCase() === "SCORE"
   );
   if (headerIdx === -1) throw new Error("Couldn't find the header row in the sheet");
   const header = rows[headerIdx];
