@@ -43,9 +43,9 @@ document.getElementById("site-footer").innerHTML = `
           <span>Chch Irish Golf Society</span>
         </div>
         <div class="social-row">
-          <a class="social-pill" href="https://www.facebook.com/" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Facebook</a>
-          <a class="social-pill" href="https://www.instagram.com/" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Instagram</a>
-          <a class="social-pill" href="mailto:info@chchirishgolf.co.nz" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Email</a>
+          <a class="social-pill" href="https://www.facebook.com/chchirishgolfsociety" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Facebook</a>
+          <a class="social-pill" href="https://www.instagram.com/chchirishgolfsociety" target="_blank" rel="noopener" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Instagram</a>
+          <a class="social-pill" href="mailto:chchirishgolfsociety@gmail.com" style="background:transparent;border-color:rgba(255,255,255,0.2);color:#fff">Email</a>
         </div>
       </div>
       <div class="footer-bottom">

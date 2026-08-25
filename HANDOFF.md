@@ -57,10 +57,6 @@ README.md              Setup, hosting, and maintenance instructions
 - **Honours Board history** — Captains and Race winners for past years are
   filled in (`honours.html`); Match Play winners are still marked "—" and
   need the committee to confirm.
-- **Social links** — Facebook and Instagram URLs are placeholders
-  (`facebook.com`, `instagram.com`), and the email address
-  (`info@chchirishgolf.co.nz`) is a guess. Update across all four pages
-  (search for `social-pill` and `mailto:`).
 - **Domain / hosting** — not yet decided whether this sits on the default
   `github.io` URL or a custom domain.
 

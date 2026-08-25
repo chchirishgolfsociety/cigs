@@ -35,9 +35,8 @@ them up automatically — just keep column B/C where they are.
 ## To do before launch
 - [x] **Cook Costello logo** — done (`assets/cook-costello-logo.png`, referenced in every page's `<div class="sponsor-slot">`).
 - [x] **About page copy** — done, real copy about the society and committee is in `about.html`.
-- [ ] **Social links** — update the Facebook and Instagram URLs (currently
-      placeholders) and the email address `info@chchirishgolf.co.nz` across all
-      four pages.
+- [x] **Facebook and Instagram links** — done, both point to `chchirishgolfsociety`.
+- [x] **Email address** — done, `chchirishgolfsociety@gmail.com` across all pages.
 
 ## Hosting on GitHub Pages
 1. Create a repo (e.g. `chch-irish-golf`) and push everything in this folder
