@@ -463,6 +463,7 @@ section + section { border-top: 1px solid var(--line); }
   border-bottom: 1px solid var(--line-soft);
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
+  line-height: 1.3;
 }
 .leaderboard-table thead th { white-space: normal; }
 
@@ -560,16 +561,6 @@ section + section { border-top: 1px solid var(--line); }
 .lb-stars .star-event { color: var(--silver); }
 .lb-stars .star-winner { color: var(--gold); }
 
-.county-crest {
-  display: inline-block;
-  height: 14px;
-  width: auto;
-  border-radius: 2px;
-  border: 1px solid rgba(16, 32, 63, 0.15);
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
 /* Tighter rows + smaller type on small screens, so more of the table
    fits before the horizontal scroll kicks in. The max-height condition
    catches phones in landscape (short viewport, e.g. ~375-430px tall)
@@ -585,7 +576,6 @@ section + section { border-top: 1px solid var(--line); }
   .leaderboard-table thead th { font-size: 0.6rem; }
   .leaderboard-table thead .th-date { font-size: 0.52rem; }
   .lb-stars { font-size: 0.95rem; }
-  .county-crest { height: 11px; margin-right: 4px; }
 
   .leaderboard-table .lb-col-pos {
     width: 34px;
