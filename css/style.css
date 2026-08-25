@@ -544,8 +544,11 @@ section + section { border-top: 1px solid var(--line); }
 .lb-stars .star-winner { color: var(--gold); }
 
 /* Tighter rows + smaller type on small screens, so more of the table
-   fits before the horizontal scroll kicks in. */
-@media (max-width: 640px) {
+   fits before the horizontal scroll kicks in. The max-height condition
+   catches phones in landscape (short viewport, e.g. ~375-430px tall)
+   which would otherwise read as "wide" on width alone — tablets in
+   landscape stay tall enough (744px+) to not match this. */
+@media (max-width: 640px), (max-height: 500px) {
   .leaderboard-table th,
   .leaderboard-table td {
     padding: 6px 8px;
