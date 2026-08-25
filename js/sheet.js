@@ -10,9 +10,30 @@
 
 const SHEET_ID = "1-5TZWP6FDgMnofBF5knFpQHcZfkzhdcWdY_X2BDu5Rc";
 const RACE_GID = "436701438";
+const SCHEDULE_SHEET_NAME = "Schedule";
+
+const MONTHS = {
+  jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+  jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+};
 
 function sheetCsvUrl(gid) {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${gid}`;
+}
+
+function sheetCsvUrlByName(name) {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+}
+
+/** Parses a "25 Jan 26" style date into a Date, or null if unrecognised. */
+function parseScheduleDate(raw) {
+  const m = (raw || "").trim().match(/(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{2,4})/);
+  if (!m) return null;
+  const mon = MONTHS[m[2].toLowerCase().slice(0, 3)];
+  if (mon === undefined) return null;
+  let year = parseInt(m[3], 10);
+  if (year < 100) year += 2000;
+  return new Date(year, mon, parseInt(m[1], 10));
 }
 
 /** Minimal CSV parser that handles quoted fields containing commas. */
@@ -98,4 +119,35 @@ async function fetchRaceData() {
   players.sort((a, b) => b.score - a.score);
 
   return { eventCols, players };
+}
+
+/**
+ * Fetches the Schedule tab and returns a list of
+ * { date: Date|null, course: string, entry: string, greenFee: string },
+ * in sheet order.
+ */
+async function fetchSchedule() {
+  const res = await fetch(sheetCsvUrlByName(SCHEDULE_SHEET_NAME));
+  if (!res.ok) throw new Error("Could not load the schedule (" + res.status + ")");
+  const csv = await res.text();
+  const rows = parseCsv(csv);
+
+  const headerIdx = rows.findIndex(
+    (r) => (r[0] || "").trim().toUpperCase() === "DATE" && (r[1] || "").trim().toUpperCase() === "COURSE"
+  );
+  if (headerIdx === -1) throw new Error("Couldn't find the header row in the schedule");
+  const header = rows[headerIdx];
+  const entryIdx = header.findIndex((h) => (h || "").trim().toUpperCase() === "ENTRY");
+  const greenFeeIdx = header.findIndex((h) => (h || "").trim().toUpperCase() === "GREEN FEE");
+
+  const events = [];
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r];
+    const course = (row[1] || "").trim();
+    if (!course) continue;
+    const entry = entryIdx !== -1 ? (row[entryIdx] || "").trim() : "";
+    const greenFee = greenFeeIdx !== -1 ? (row[greenFeeIdx] || "").trim() : "";
+    events.push({ date: parseScheduleDate(row[0]), course, entry, greenFee });
+  }
+  return events;
 }

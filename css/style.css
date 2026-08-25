@@ -615,7 +615,6 @@ section + section { border-top: 1px solid var(--line); }
   border-radius: 12px;
   padding: 16px;
 }
-.event-row.is-past { opacity: 0.7; }
 .event-date {
   text-align: center;
   font-family: var(--font-display);
@@ -625,18 +624,23 @@ section + section { border-top: 1px solid var(--line); }
 .event-date .day { font-size: 1.5rem; font-weight: 600; display: block; }
 .event-date .mon { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); }
 .event-name { font-weight: 700; color: var(--navy); }
-.event-tag {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 700;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--surface-dim);
+.event-price {
+  font-family: var(--font-display);
   color: var(--navy);
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: right;
+  line-height: 1.1;
+}
+.event-price .green-fee-note {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 3px;
   white-space: nowrap;
 }
-.event-tag.upcoming { background: #e7f4ec; color: var(--green-deep); }
 
 /* ============================================
    Honours Board

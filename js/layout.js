@@ -20,8 +20,9 @@ document.getElementById("site-header").innerHTML = `
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="events.html">Events</a>
-        <a href="honours.html">Honours Board</a>
         <a href="race.html">Race</a>
+        <a href="honours.html">Honours Board</a>
+        <a href="https://www.oneills.com/int_en/shop-by-team/pitch-and-putt/christchurch-irish-golf-society.html" target="_blank" rel="noopener">Pro Shop</a>
       </nav>
       <div class="sponsor-slot">
         <a href="https://www.coco.co.nz/" target="_blank" rel="noopener">
