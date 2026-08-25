@@ -14,19 +14,20 @@ as a later phase.
 
 ## Where things stand
 - **Pages built:** Home, Race (live leaderboard), Events (live calendar),
-  About.
+  About, Honours Board (past Captains/winners).
 - **Brand assets in place:** club crest (`assets/crest.png`) and the real
   Cook Costello sponsor logo (`assets/cook-costello-logo.png`).
 - **Palette derived from the crest:** deep navy `#10203f` as the site's base
   background (the brief specifically asked for this — "navy like Liverpool's
-  red"), kelly green `#1c8f49` / `#0f5b2d`, and a muted gold `#c7a038` used
-  for the leaderboard's top-3 highlight and the "Hanmer" (finale event) marker
-  — a nod to the ✪ symbols already used in the club's own sheet for past
-  winners.
+  red"), kelly green `#1c8f49` / `#0f5b2d`, a muted gold `#c7a038` for
+  previous Race winners, and a silver `#9aa5b4` for this season's event
+  winners — both echoing the ✪ symbols already used in the club's own sheet.
 - **Type:** Fraunces (display) + Inter (body/UI), loaded via Google Fonts.
 - **Leaderboard:** a scrollable table mirroring the sheet's own layout —
   Player and Score columns pinned (sticky) on the left, one column per event
-  scrolling alongside, with the Hanmer column tinted gold.
+  scrolling alongside. Event-winner stars (silver) are computed live from
+  each round's top score; previous-Race-winner stars (gold) come from the
+  sheet's own `✪` marks.
 - **Data source:** `js/sheet.js` fetches the Race tab of the club's Google
   Sheet directly as CSV (`gviz/tq?tqx=out:csv`) — no API key, no backend.
   Both `race.js` (leaderboard) and `events.js` (calendar) use it. Sheet ID
@@ -38,6 +39,7 @@ index.html          Home
 race.html            Race to Hanmer leaderboard
 events.html          Event calendar
 about.html            About the society
+honours.html           Honours Board (past Captains, Race + Match Play winners)
 css/style.css         All styles (single stylesheet, CSS custom properties for the palette)
 js/layout.js           Shared header + footer markup, injected into every page
 js/main.js            Nav open/close + active-link highlighting
@@ -50,15 +52,13 @@ README.md              Setup, hosting, and maintenance instructions
 ```
 
 ## Open items
-- **About page copy** — the bio paragraph is still a placeholder (marked
-  `[Committee note: ...]` in `about.html`). Needs the real story of the
-  society before launch.
+- **Honours Board history** — Captains and Race winners for past years are
+  filled in (`honours.html`); Match Play winners are still marked "—" and
+  need the committee to confirm.
 - **Social links** — Facebook and Instagram URLs are placeholders
   (`facebook.com`, `instagram.com`), and the email address
   (`info@chchirishgolf.co.nz`) is a guess. Update across all four pages
   (search for `social-pill` and `mailto:`).
-- **Stat numbers on About** (`9 events`, `40+ players`) — sanity-check these
-  against the real season.
 - **Domain / hosting** — not yet decided whether this sits on the default
   `github.io` URL or a custom domain.
 

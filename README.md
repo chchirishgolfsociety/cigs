@@ -34,13 +34,10 @@ them up automatically — just keep column B/C where they are.
 
 ## To do before launch
 - [x] **Cook Costello logo** — done (`assets/cook-costello-logo.png`, referenced in every page's `<div class="sponsor-slot">`).
-- [ ] **About page copy** — replace the placeholder paragraph in `about.html`
-      (marked `[Committee note: ...]`) with the real story of the society.
+- [x] **About page copy** — done, real copy about the society and committee is in `about.html`.
 - [ ] **Social links** — update the Facebook and Instagram URLs (currently
       placeholders) and the email address `info@chchirishgolf.co.nz` across all
       four pages.
-- [ ] **Member/season stats** on the About page (`9 events`, `40+ players`) —
-      adjust if needed.
 
 ## Hosting on GitHub Pages
 1. Create a repo (e.g. `chch-irish-golf`) and push everything in this folder

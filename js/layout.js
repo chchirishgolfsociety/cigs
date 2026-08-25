@@ -18,12 +18,15 @@ document.getElementById("site-header").innerHTML = `
       </a>
       <nav class="nav-links" aria-label="Main">
         <a href="index.html">Home</a>
-        <a href="race.html">Race</a>
-        <a href="events.html">Events</a>
         <a href="about.html">About</a>
+        <a href="events.html">Events</a>
+        <a href="honours.html">Honours Board</a>
+        <a href="race.html">Race</a>
       </nav>
       <div class="sponsor-slot">
-        <img src="assets/cook-costello-logo.png" alt="Cook Costello, club sponsor">
+        <a href="https://www.coco.co.nz/" target="_blank" rel="noopener">
+          <img src="assets/cook-costello-logo.png" alt="Cook Costello, club sponsor">
+        </a>
       </div>
     </div>
     <div class="nav-scrim"></div>
@@ -46,7 +49,6 @@ document.getElementById("site-footer").innerHTML = `
       </div>
       <div class="footer-bottom">
         <span>&copy; 2026 Christchurch Irish Golf Society. Kindly sponsored by Cook Costello.</span>
-        <span><a href="race.html">Race to Hanmer</a> &middot; <a href="events.html">Events</a> &middot; <a href="about.html">About</a></span>
       </div>
     </div>
   </footer>
