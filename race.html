@@ -24,12 +24,18 @@
   </section>
 
   <section style="padding-top:28px">
-    <div class="container">
-      <div class="race-controls">
-        <input type="search" id="race-search" placeholder="Find a player…" aria-label="Search players">
-      </div>
+    <div class="container-wide">
       <p class="race-status" id="race-status">Loading leaderboard…</p>
       <div class="legend" id="race-legend"></div>
+
+      <p class="rotate-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="3" width="9" height="15" rx="1.5"/>
+          <path d="M19 8.5a6.5 6.5 0 0 1-9.5 6"/>
+          <path d="M19 8.5l-2.8-.6M19 8.5l-1 2.6"/>
+        </svg>
+        Rotate device to see event results
+      </p>
 
       <div class="leaderboard-table-wrap" id="leaderboard"></div>
     </div>

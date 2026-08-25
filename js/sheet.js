@@ -89,7 +89,6 @@ async function fetchRaceData() {
     const score = parseFloat(row[2]);
     if (!name || Number.isNaN(score)) continue; // skips blanks + footer notes
     players.push({
-      stars: (row[0] || "").trim(),
       name,
       score,
       cells: eventCols.map((ec) => (row[ec.index] || "").trim()),

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const board = document.getElementById("leaderboard");
   const status = document.getElementById("race-status");
-  const search = document.getElementById("race-search");
   const legendEl = document.getElementById("race-legend");
 
   let data;
@@ -13,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  status.textContent = `${data.players.length} players · updated live from the club sheet`;
+  status.textContent = "";
 
   legendEl.innerHTML = `
     <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner this season</span>
@@ -27,8 +26,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Grey stars mark this year's event winners, computed live from the
   // scores we already have (highest score in a round's column = winner).
-  // Gold stars are the sheet's own "✪" marks, which now mean only
-  // "previous Race winner" — a fact that isn't in this season's data.
+  // This can't see countback or format differences (e.g. an Irish
+  // stableford round), so a tie on raw score doesn't always mean a tie
+  // in reality — override the auto-detected winner(s) here when that
+  // happens.
+  const EVENT_WINNER_OVERRIDES = {
+    "Kaiapoi": ["Ruane, Eugene"], // tied with Ryan, Shane on score; won on countback
+    "Bottle L": ["Curtin, John"], // tied with Smyth, Elaine on score; won on countback
+  };
+
   const eventWinCounts = new Map();
   data.eventCols.forEach((ec, i) => {
     let best = -Infinity;
@@ -41,16 +47,42 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (n > best) { best = n; winners = [p]; }
       else if (n === best) { winners.push(p); }
     });
+    const override = EVENT_WINNER_OVERRIDES[ec.name];
+    if (override) {
+      winners = data.players.filter((p) => override.some((n) => n.toLowerCase() === p.name.toLowerCase()));
+    }
     winners.forEach((p) => eventWinCounts.set(p, (eventWinCounts.get(p) || 0) + 1));
   });
 
-  function starsMarkup(p) {
+  // Gold stars mark previous Race winners, sourced from the Honours Board
+  // (honours.html) rather than the sheet, since that history isn't part
+  // of this season's data. Keep this list in sync with that page.
+  const PREVIOUS_RACE_WINNERS = [
+    "Farrell, Patrick",   // 2025
+    "Daly, Mícheál",      // 2024
+    "Skehill, Alan",      // 2023
+    "Dunphy, Anthony",    // 2022
+    "McGlynn, Kieran",    // 2021
+    "Connell, Martin",    // 2020
+    "Kinsella, Martin",   // 2019
+  ];
+
+  function raceWinCount(p) {
+    return PREVIOUS_RACE_WINNERS.filter((n) => n.toLowerCase() === p.name.toLowerCase()).length;
+  }
+
+  // Gold (previous winner) stars sit after the name, before the grey
+  // (this season's event winner) stars.
+  function raceStarsMarkup(p) {
+    const raceWins = raceWinCount(p);
+    if (!raceWins) return "";
+    return `<span class="lb-stars"><span class="star-winner" title="Previous Race winner">${"✪".repeat(raceWins)}</span></span>`;
+  }
+
+  function eventStarsMarkup(p) {
     const eventWins = eventWinCounts.get(p) || 0;
-    const raceWins = (p.stars.match(/✪/g) || []).length;
-    if (!eventWins && !raceWins) return "";
-    const eventStars = eventWins ? `<span class="star-event" title="Won ${eventWins} event${eventWins > 1 ? "s" : ""} this season">${"✪".repeat(eventWins)}</span>` : "";
-    const raceStars = raceWins ? `<span class="star-winner" title="Previous Race winner">${"✪".repeat(raceWins)}</span>` : "";
-    return `<span class="lb-stars">${eventStars}${raceStars}</span>`;
+    if (!eventWins) return "";
+    return `<span class="lb-stars"><span class="star-event" title="Won ${eventWins} event${eventWins > 1 ? "s" : ""} this season">${"✪".repeat(eventWins)}</span></span>`;
   }
 
   let sortKey = "score"; // "name" | "score" | event column index
@@ -99,19 +131,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     return `
       <tr class="${p.rank <= 3 ? "is-top3" : ""}">
-        <td class="lb-col-name">${p.name}${starsMarkup(p)}</td>
+        <td class="lb-col-name">${p.name}${raceStarsMarkup(p)}${eventStarsMarkup(p)}</td>
         <td class="lb-col-score">${p.score}</td>
         ${cells}
       </tr>
     `;
   }
 
-  function render(filter) {
-    const f = (filter || "").trim().toLowerCase();
-    const filtered = sortPlayers(data.players.filter((p) => p.name.toLowerCase().includes(f)));
-    const rows = filtered.length
-      ? filtered.map(renderRow).join("")
-      : `<tr><td colspan="${data.eventCols.length + 2}" style="text-align:center;padding:20px">No players match "${filter}".</td></tr>`;
+  function render() {
+    const rows = sortPlayers(data.players).map(renderRow).join("");
 
     board.innerHTML = `
       <table class="leaderboard-table">
@@ -138,9 +166,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       sortKey = key;
       sortDir = key === "name" ? 1 : -1;
     }
-    render(search.value);
+    render();
   });
 
-  render("");
-  search.addEventListener("input", (e) => render(e.target.value));
+  render();
 });

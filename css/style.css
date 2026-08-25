@@ -58,6 +58,12 @@ h1, h2, h3 {
 
 p { line-height: 1.6; }
 
+.container-wide {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .container {
   max-width: var(--container);
   margin: 0 auto;
@@ -430,23 +436,6 @@ section + section { border-top: 1px solid var(--line); }
   color: rgba(255,255,255,0.6);
 }
 
-.race-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin: 20px 0;
-}
-.race-controls input[type="search"] {
-  flex: 1 1 200px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--line-soft);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  background: var(--surface);
-  color: var(--ink);
-}
 .race-status {
   font-size: 0.85rem;
   color: var(--text-dim);
@@ -553,6 +542,47 @@ section + section { border-top: 1px solid var(--line); }
 .lb-stars { font-size: 1.2rem; margin-left: 4px; white-space: nowrap; }
 .lb-stars .star-event { color: var(--silver); }
 .lb-stars .star-winner { color: var(--gold); }
+
+/* Tighter rows + smaller type on small screens, so more of the table
+   fits before the horizontal scroll kicks in. */
+@media (max-width: 640px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 6px 8px;
+    font-size: 0.78rem;
+  }
+  .leaderboard-table thead th { font-size: 0.6rem; }
+  .leaderboard-table thead .th-date { font-size: 0.52rem; }
+  .lb-stars { font-size: 0.95rem; }
+
+  .leaderboard-table .lb-col-name {
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
+  }
+  .leaderboard-table .lb-col-score {
+    left: 130px;
+    width: 48px;
+    min-width: 48px;
+    max-width: 48px;
+  }
+}
+
+.rotate-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--surface-dim);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--navy);
+}
+.rotate-hint svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--navy); }
+@media (min-width: 640px) {
+  .rotate-hint { display: none; }
+}
 
 .legend {
   display: flex;

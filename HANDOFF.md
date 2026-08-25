@@ -26,8 +26,10 @@ as a later phase.
 - **Leaderboard:** a scrollable table mirroring the sheet's own layout —
   Player and Score columns pinned (sticky) on the left, one column per event
   scrolling alongside. Event-winner stars (silver) are computed live from
-  each round's top score; previous-Race-winner stars (gold) come from the
-  sheet's own `✪` marks.
+  each round's top score; previous-Race-winner stars (gold) come from a
+  hardcoded list in `js/race.js` (`PREVIOUS_RACE_WINNERS`) sourced from the
+  Honours Board (`honours.html`) — keep the two in sync by hand when a new
+  Race is won.
 - **Data source:** `js/sheet.js` fetches the Race tab of the club's Google
   Sheet directly as CSV (`gviz/tq?tqx=out:csv`) — no API key, no backend.
   Both `race.js` (leaderboard) and `events.js` (calendar) use it. Sheet ID
