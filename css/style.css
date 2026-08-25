@@ -451,10 +451,12 @@ section + section { border-top: 1px solid var(--line); }
 .leaderboard-table {
   border-collapse: collapse;
   width: 100%;
+  table-layout: fixed;
 }
 
 .leaderboard-table th,
 .leaderboard-table td {
+  width: 72px;
   padding: 10px 12px;
   text-align: center;
   white-space: nowrap;
@@ -462,10 +464,14 @@ section + section { border-top: 1px solid var(--line); }
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
 }
+.leaderboard-table thead th { white-space: normal; }
 
 .leaderboard-table tbody td {
   color: var(--ink);
   font-weight: 600;
+}
+.leaderboard-table tbody td.is-extra {
+  text-decoration: line-through;
 }
 
 .leaderboard-table thead th {
@@ -500,18 +506,27 @@ section + section { border-top: 1px solid var(--line); }
 .leaderboard-table .sort-arrow { font-size: 0.65em; margin-left: 3px; opacity: 0.85; }
 
 .leaderboard-table tbody tr { background: var(--white); }
-.leaderboard-table tbody tr.is-top3 { background: #fffaf0; }
+.leaderboard-table tbody tr.is-top10 { background: #fffaf0; }
 .leaderboard-table tbody tr:last-child td { border-bottom: none; }
 
-/* Player + Score columns stay pinned while the round columns scroll */
+/* Pos + Player + Score columns stay pinned while the round columns scroll */
+.leaderboard-table .lb-col-pos,
 .leaderboard-table .lb-col-name,
 .leaderboard-table .lb-col-score {
   position: sticky;
   background: inherit;
   z-index: 1;
 }
-.leaderboard-table .lb-col-name {
+.leaderboard-table .lb-col-pos {
   left: 0;
+  width: 44px;
+  min-width: 44px;
+  max-width: 44px;
+  font-family: var(--font-display);
+  text-align: left;
+}
+.leaderboard-table .lb-col-name {
+  left: 44px;
   width: 220px;
   min-width: 220px;
   max-width: 220px;
@@ -521,18 +536,20 @@ section + section { border-top: 1px solid var(--line); }
   text-align: left;
 }
 .leaderboard-table .lb-col-score {
-  left: 220px;
+  left: 264px;
   width: 70px;
   min-width: 70px;
   max-width: 70px;
   font-family: var(--font-display);
   box-shadow: 3px 0 6px -3px rgba(16, 32, 63, 0.25);
 }
+.leaderboard-table tbody .lb-col-pos,
 .leaderboard-table tbody .lb-col-name,
 .leaderboard-table tbody .lb-col-score {
   color: var(--navy);
   font-weight: 700;
 }
+.leaderboard-table thead .lb-col-pos,
 .leaderboard-table thead .lb-col-name,
 .leaderboard-table thead .lb-col-score {
   background: var(--navy);
@@ -551,6 +568,7 @@ section + section { border-top: 1px solid var(--line); }
 @media (max-width: 640px), (max-height: 500px) {
   .leaderboard-table th,
   .leaderboard-table td {
+    width: 52px;
     padding: 6px 8px;
     font-size: 0.78rem;
   }
@@ -558,13 +576,21 @@ section + section { border-top: 1px solid var(--line); }
   .leaderboard-table thead .th-date { font-size: 0.52rem; }
   .lb-stars { font-size: 0.95rem; }
 
+  .leaderboard-table .lb-col-pos {
+    width: 34px;
+    min-width: 34px;
+    max-width: 34px;
+    padding-left: 4px;
+    padding-right: 2px;
+  }
   .leaderboard-table .lb-col-name {
+    left: 34px;
     width: 130px;
     min-width: 130px;
     max-width: 130px;
   }
   .leaderboard-table .lb-col-score {
-    left: 130px;
+    left: 164px;
     width: 48px;
     min-width: 48px;
     max-width: 48px;

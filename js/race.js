@@ -17,12 +17,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   legendEl.innerHTML = `
     <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner this season</span>
     <span><span class="lb-stars"><span class="star-winner">✪</span></span> Previous Race winner</span>
+    <span><s>00</s> Doesn't count toward total (best 6 + Hanmer only)</span>
   `;
 
-  // Season rank is fixed at load (players arrive sorted by score, highest
-  // first) so the top-3 highlight always reflects the real standings, even
-  // when the table below is sorted by some other column.
-  data.players.forEach((p, i) => { p.rank = i + 1; });
+  // Season position is fixed at load (players arrive sorted by score,
+  // highest first) so it — and the top-3 highlight — always reflect the
+  // real standings, even when the table below is sorted by some other
+  // column. Tied scores share a position, and the next distinct score
+  // skips ahead accordingly (e.g. two players tied at 4th, next is 6th).
+  data.players.forEach((p, i, arr) => {
+    p.rank = i > 0 && p.score === arr[i - 1].score ? arr[i - 1].rank : i + 1;
+  });
+  const rankCounts = new Map();
+  data.players.forEach((p) => rankCounts.set(p.rank, (rankCounts.get(p.rank) || 0) + 1));
 
   // Grey stars mark this year's event winners, computed live from the
   // scores we already have (highest score in a round's column = winner).
@@ -94,6 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function cellValue(p, key) {
+    if (key === "rank") return p.rank;
     if (key === "name") return p.name.toLowerCase();
     if (key === "score") return p.score;
     const val = p.cells[key];
@@ -120,17 +128,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `<th class="${isSorted ? "is-sorted" : ""}" data-sort-key="event:${idx}" title="${title}">${ec.name}${sortArrow(idx)}${ec.date ? `<span class="th-date">${ec.date}</span>` : ""}</th>`;
   }
 
+  // The sheet's SCORE column is already "best 6 regular events + Hanmer",
+  // not a sum of everything played. Reverse-engineer which cells count so
+  // extras (beyond 6 played regular events) can be visually de-emphasised.
+  function countingCells(p) {
+    const regular = [];
+    data.eventCols.forEach((ec, i) => {
+      if (/hanmer/i.test(ec.name)) return;
+      const val = p.cells[i];
+      if (!val || val === "-") return;
+      const n = parseFloat(val);
+      if (Number.isNaN(n)) return;
+      regular.push({ i, n });
+    });
+    regular.sort((a, b) => b.n - a.n);
+    const counting = new Set(regular.slice(0, 6).map((r) => r.i));
+    data.eventCols.forEach((ec, i) => {
+      if (!/hanmer/i.test(ec.name)) return;
+      const val = p.cells[i];
+      if (val && val !== "-") counting.add(i);
+    });
+    return counting;
+  }
+
   function renderRow(p) {
+    const counting = countingCells(p);
     const cells = data.eventCols
       .map((ec, i) => {
         const val = p.cells[i];
         const played = val && val !== "-";
-        return `<td>${played ? val : "–"}</td>`;
+        const isExtra = played && !counting.has(i);
+        return `<td class="${isExtra ? "is-extra" : ""}" ${isExtra ? 'title="Doesn\'t count toward total — best 6 + Hanmer only"' : ""}>${played ? val : "–"}</td>`;
       })
       .join("");
 
     return `
-      <tr class="${p.rank <= 3 ? "is-top3" : ""}">
+      <tr class="${p.rank <= 10 ? "is-top10" : ""}">
+        <td class="lb-col-pos">${rankCounts.get(p.rank) > 1 ? "T" : ""}${p.rank}</td>
         <td class="lb-col-name">${p.name}${raceStarsMarkup(p)}${eventStarsMarkup(p)}</td>
         <td class="lb-col-score">${p.score}</td>
         ${cells}
@@ -145,6 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       <table class="leaderboard-table">
         <thead>
           <tr>
+            <th class="lb-col-pos ${sortKey === "rank" ? "is-sorted" : ""}" data-sort-key="rank">Pos${sortArrow("rank")}</th>
             <th class="lb-col-name ${sortKey === "name" ? "is-sorted" : ""}" data-sort-key="name">Player${sortArrow("name")}</th>
             <th class="lb-col-score ${sortKey === "score" ? "is-sorted" : ""}" data-sort-key="score">Score${sortArrow("score")}</th>
             ${data.eventCols.map(headerCell).join("")}
@@ -164,7 +199,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       sortDir *= -1;
     } else {
       sortKey = key;
-      sortDir = key === "name" ? 1 : -1;
+      sortDir = key === "name" || key === "rank" ? 1 : -1;
     }
     render();
   });
