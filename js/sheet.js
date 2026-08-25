@@ -151,3 +151,29 @@ async function fetchSchedule() {
   }
   return events;
 }
+
+/**
+ * Fetches the Player Info tab and returns a Map of lowercased player name
+ * ("surname, first") -> home county, skipping players with no county set.
+ */
+async function fetchPlayerCounties() {
+  const res = await fetch(sheetCsvUrlByName("Player Info"));
+  if (!res.ok) throw new Error("Could not load player info (" + res.status + ")");
+  const csv = await res.text();
+  const rows = parseCsv(csv);
+
+  const headerIdx = rows.findIndex(
+    (r) => (r[0] || "").trim().toUpperCase() === "PLAYER NAME" && (r[1] || "").trim().toUpperCase() === "HOME COUNTY"
+  );
+  if (headerIdx === -1) throw new Error("Couldn't find the header row in Player Info");
+
+  const counties = new Map();
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r];
+    const name = (row[0] || "").trim();
+    const county = (row[1] || "").trim();
+    if (!name || !county) continue;
+    counties.set(name.toLowerCase(), county);
+  }
+  return counties;
+}

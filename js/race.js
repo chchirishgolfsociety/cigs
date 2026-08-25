@@ -14,6 +14,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   status.textContent = "";
 
+  // County crest is a nice-to-have — don't break the leaderboard if the
+  // Player Info tab can't be read.
+  let playerCounties = new Map();
+  try {
+    playerCounties = await fetchPlayerCounties();
+  } catch (err) {
+    console.error(err);
+  }
+
+  // County colours image: assets/countycolours/<county-lowercase>.svg
+  // (falls back to .png, then quietly disappears if neither exists).
+  function countyCrestMarkup(p) {
+    const county = playerCounties.get(p.name.toLowerCase());
+    if (!county) return "";
+    const slug = county.trim().toLowerCase().replace(/[^a-z]/g, "");
+    if (!slug) return "";
+    const svg = `assets/countycolours/${slug}.svg`;
+    const png = `assets/countycolours/${slug}.png`;
+    return `<img class="county-crest" src="${svg}" alt="" title="${county}" data-fallback="${png}" onerror="if(!this.dataset.tried){this.dataset.tried='1';this.src=this.dataset.fallback}else{this.remove()}">`;
+  }
+
   legendEl.innerHTML = `
     <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner this season</span>
     <span><span class="lb-stars"><span class="star-winner">✪</span></span> Previous Race winner</span>
@@ -165,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `
       <tr class="${p.rank <= 10 ? "is-top10" : ""}">
         <td class="lb-col-pos">${rankCounts.get(p.rank) > 1 ? "T" : ""}${p.rank}</td>
-        <td class="lb-col-name">${p.name}${raceStarsMarkup(p)}${eventStarsMarkup(p)}</td>
+        <td class="lb-col-name">${countyCrestMarkup(p)}${p.name}${raceStarsMarkup(p)}${eventStarsMarkup(p)}</td>
         <td class="lb-col-score">${p.score}</td>
         ${cells}
       </tr>
