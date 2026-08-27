@@ -297,6 +297,13 @@ p { line-height: 1.6; }
   font-size: clamp(2rem, 6vw, 3.4rem);
   max-width: 14ch;
 }
+/* A phone in landscape has a much wider viewport than in portrait, which
+   the vw-based clamp above reads as "desktop" and sizes accordingly —
+   pin it back to the portrait size for short viewports (same threshold
+   used for the race table's mobile breakpoint). */
+@media (max-height: 500px) {
+  .hero h1 { font-size: 2rem; }
+}
 .hero .lede {
   max-width: 46ch;
   color: rgba(255,255,255,0.85);
