@@ -429,12 +429,8 @@ section + section { border-top: 1px solid var(--line); }
 }
 .race-hero .eyebrow { color: #7fd39c; }
 .race-hero h1 { color: var(--white); margin-bottom: 6px; }
-.race-hero p { color: rgba(255,255,255,0.8); max-width: 60ch; }
-.race-sponsor-line {
-  margin-top: 14px;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.6);
-}
+.race-hero p { color: rgba(255,255,255,0.8); }
+.race-sponsor-line { margin-top: 14px; }
 
 .race-status {
   font-size: 0.85rem;
@@ -456,8 +452,8 @@ section + section { border-top: 1px solid var(--line); }
 
 .leaderboard-table th,
 .leaderboard-table td {
-  width: 72px;
-  padding: 10px 12px;
+  width: 90px;
+  padding: 10px 5px;
   text-align: center;
   white-space: nowrap;
   border-bottom: 1px solid var(--line-soft);
@@ -485,6 +481,7 @@ section + section { border-top: 1px solid var(--line); }
   letter-spacing: 0.04em;
   border-bottom: none;
   vertical-align: middle;
+  overflow-wrap: break-word;
 }
 .leaderboard-table thead .th-date {
   display: block;
@@ -528,16 +525,16 @@ section + section { border-top: 1px solid var(--line); }
 }
 .leaderboard-table .lb-col-name {
   left: 44px;
-  width: 220px;
-  min-width: 220px;
-  max-width: 220px;
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
 }
 .leaderboard-table .lb-col-score {
-  left: 264px;
+  left: 244px;
   width: 70px;
   min-width: 70px;
   max-width: 70px;
@@ -569,12 +566,12 @@ section + section { border-top: 1px solid var(--line); }
 @media (max-width: 640px), (max-height: 500px) {
   .leaderboard-table th,
   .leaderboard-table td {
-    width: 52px;
-    padding: 6px 8px;
+    width: 90px;
+    padding: 6px 6px;
     font-size: 0.78rem;
   }
-  .leaderboard-table thead th { font-size: 0.6rem; }
-  .leaderboard-table thead .th-date { font-size: 0.52rem; }
+  .leaderboard-table thead th { font-size: 0.64rem; }
+  .leaderboard-table thead .th-date { font-size: 0.54rem; }
   .lb-stars { font-size: 0.95rem; }
 
   .leaderboard-table .lb-col-pos {
@@ -586,15 +583,15 @@ section + section { border-top: 1px solid var(--line); }
   }
   .leaderboard-table .lb-col-name {
     left: 34px;
-    width: 130px;
-    min-width: 130px;
-    max-width: 130px;
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
   }
   .leaderboard-table .lb-col-score {
-    left: 164px;
-    width: 48px;
-    min-width: 48px;
-    max-width: 48px;
+    left: 194px;
+    width: 55px;
+    min-width: 55px;
+    max-width: 55px;
   }
 }
 

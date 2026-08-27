@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   legendEl.innerHTML = `
     <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner this season</span>
     <span><span class="lb-stars"><span class="star-winner">✪</span></span> Previous Race winner</span>
-    <span><s>00</s> Doesn't count toward total (best 6 + Hanmer only)</span>
+    <span><s>00</s> Non-counter</span>
   `;
 
   // Season position is fixed at load (players arrive sorted by score,
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const val = p.cells[i];
         const played = val && val !== "-";
         const isExtra = played && !counting.has(i);
-        return `<td class="${isExtra ? "is-extra" : ""}" ${isExtra ? 'title="Doesn\'t count toward total — best 6 + Hanmer only"' : ""}>${played ? val : "–"}</td>`;
+        return `<td class="${isExtra ? "is-extra" : ""}" ${isExtra ? 'title="Non-counter"' : ""}>${played ? val : "–"}</td>`;
       })
       .join("");
 
