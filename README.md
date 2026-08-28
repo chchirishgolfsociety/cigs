@@ -1,58 +1,107 @@
 # Christchurch Irish Golf Society — website
 
 A small, mobile-first, static site. No build step, no backend — just HTML/CSS/JS,
-ready to host on GitHub Pages.
+hosted on GitHub Pages at **https://chchirishgolfsociety.github.io/cigs/**.
+
+Repo: `github.com/chchirishgolfsociety/cigs` (note: a separate GitHub account
+from any personal one — see `HANDOFF.md` for why).
 
 ## Pages
-- `index.html` — Home (includes the "who we are" and "get involved" copy that used to live on a separate About page)
-- `race.html` — Race to Hanmer leaderboard (pulls live from your Google Sheet)
-- `events.html` — Event calendar (also pulled from the sheet, links out to Facebook)
-- `honours.html` — Honours Board (past Captains, Race + Match Play winners)
+- `index.html` — Home. Hero has a swipeable/click-through photo carousel
+  (`assets/photos/`), then "Who we are" and "Get involved" sections (this
+  copy used to live on a separate `about.html`; folded into the homepage
+  since a standalone About page became redundant).
+- `race.html` — Cook Costello Race to Hanmer leaderboard. Live from the
+  Race tab, sortable, with Pos/Player/Score pinned while event columns
+  scroll horizontally.
+- `events.html` — Upcoming Events. Live from the Schedule tab; only shows
+  events that haven't happened yet, with the entry price shown per event.
+- `honours.html` — Honours Board. Past Captains, Race winners, and Match
+  Play winners — **manually maintained**, not pulled from the sheet.
 
-## How the Race data works
-`race.html` and `events.html` fetch your **"Chch Irish Golf Society 2026"** Google
-Sheet directly, as CSV, using this public endpoint (no API key needed):
+## How the live data works
+`race.html` and `events.html` fetch the club's **"Chch Irish Golf Society 2026"**
+Google Sheet directly, as CSV, using this public endpoint (no API key needed):
 
 ```
 https://docs.google.com/spreadsheets/d/<SHEET_ID>/gviz/tq?tqx=out:csv&gid=<GID>
+https://docs.google.com/spreadsheets/d/<SHEET_ID>/gviz/tq?tqx=out:csv&sheet=<TAB NAME>
 ```
 
-This is configured in `js/sheet.js`. As long as the sheet stays shared as
-**"Anyone with the link — Viewer"**, the site will always show the latest scores
-you enter — no need to touch the website when scores change.
+Both are configured in `js/sheet.js`. As long as the sheet stays shared as
+**"Anyone with the link — Viewer"**, the site always shows the latest data —
+no need to touch the website when scores or the schedule change.
 
-**If you ever replace the sheet or the Race tab:**
-1. Open the new sheet, click on the *Race* tab.
-2. Copy the sheet ID from the URL (the long string after `/d/`) and the tab's
-   `gid` (the number after `gid=` at the end of the URL).
-3. Update `SHEET_ID` and `RACE_GID` at the top of `js/sheet.js`.
+**Race tab** (`fetchRaceData()`, used by `race.html`):
+- Header row: column B ends with `PLAYER NAME`, column C is `SCORE` (the
+  detection tolerates a title/sponsor banner crammed into the same cell as
+  "PLAYER NAME" — matches on `endsWith`, not exact equality).
+- One event column per course starting at column E, picked up automatically
+  — add or remove columns freely, just keep column B/C where they are.
+- The `SCORE` column is already "best 6 regular events + Hanmer", not a sum
+  of everything played — `race.js` reverse-engineers which specific cells
+  count (for the strikethrough "doesn't count" styling) by taking each
+  player's top 6 regular scores and always including Hanmer.
 
-The parser expects the same layout as your current Race tab: a header row with
-`PLAYER NAME` in column B and `SCORE` in column C, then one column per event
-starting at column E. If you add or remove columns in that range it'll pick
-them up automatically — just keep column B/C where they are.
+**Schedule tab** (`fetchSchedule()`, used by `events.html`):
+- Columns: `Date`, `Course`, `Entry` (green fee shown on the page), and
+  optionally `Green Fee` (shown as a second "usual green fee" line when a
+  round has one, e.g. the away trips).
+- Date format expected: `25 Jan 26` (day, short month, 2-digit year).
+
+**If you ever replace the sheet or a tab:**
+1. Open the new sheet, click the relevant tab.
+2. Copy the sheet ID from the URL (the string after `/d/`) and the tab's
+   `gid` (the number after `gid=` at the end of the URL, for the Race tab).
+3. Update `SHEET_ID` / `RACE_GID` at the top of `js/sheet.js`. The Schedule
+   tab is looked up by name (`sheet=Schedule`), so it only needs updating
+   if you rename that tab.
+
+## Honours Board — keeping it in sync
+`honours.html`'s table is hand-edited HTML, not pulled from the sheet. Two
+things need to stay in sync manually when a new Race is won:
+1. Add the new winner's row to the table in `honours.html`.
+2. Add their name to the `PREVIOUS_RACE_WINNERS` list at the top of
+   `js/race.js` — this is what gives a player their gold "previous winner"
+   star on the live leaderboard. Format: `"Surname, First"`, matching how
+   names appear in the Race tab.
+
+## Editing the shared header/footer/nav
+`js/layout.js` injects the header (crest, nav links, sponsor logo, mobile
+drawer) and footer (crest, social icons) into every page from one place —
+edit it once, it applies everywhere. Don't edit the header/footer markup
+in the individual `.html` files; they just have an empty
+`<div id="site-header"></div>` / `<div id="site-footer"></div>` for
+`layout.js` to fill in.
 
 ## Hosting on GitHub Pages
-1. Create a repo (e.g. `chch-irish-golf`) and push everything in this folder
-   to the `main` branch.
-2. In the repo: **Settings → Pages → Source → Deploy from branch → `main` / `root`**.
-3. Your site will be live at `https://<your-username>.github.io/chch-irish-golf/`.
-4. Optional: add a custom domain under the same Pages settings.
+Already set up — **Settings → Pages → Source → Deploy from branch → `main` /
+`root`** on the `chchirishgolfsociety/cigs` repo. A push to `main` typically
+goes live within ~30–60 seconds. Browsers may cache CSS/JS/images for up to
+10 minutes (GitHub Pages' default `Cache-Control: max-age=600`) before
+picking up a change — that's expected and hasn't been worth changing.
 
 ## Local preview
-Because the Race/Events pages `fetch()` data, opening the HTML files directly
-(`file://`) won't load them (browsers block that for security). Instead, run
-a tiny local server from this folder:
+Because the Race/Events pages `fetch()` data, opening the HTML files
+directly (`file://`) won't load them (browsers block that for security).
+Instead, run a tiny local server from this folder:
 
 ```bash
-python3 -m http.server 8000
+python -m http.server 8000
 ```
 
 Then visit `http://localhost:8000`. GitHub Pages serves over `https://`, so
 this isn't an issue once deployed.
 
+**Note:** if you're testing a change and it doesn't seem to appear (locally
+*or* on the live site), it's almost always the browser caching the old
+version — hard refresh (Ctrl+Shift+R on desktop; on iOS/Chrome mobile, use
+a private/incognito tab) before assuming something's broken.
+
 ## Later: moving beyond the Google Sheet
 When manual sheet upkeep gets old, the natural next step is a small hosted
 database (e.g. Supabase or Firebase) with a simple admin page for entering
-scores and events, swapped in behind the same `fetchRaceData()` function in
-`js/sheet.js` — the rest of the site won't need to change.
+scores and events, swapped in behind the same `fetchRaceData()` /
+`fetchSchedule()` functions in `js/sheet.js` — the rest of the site
+shouldn't need to change, since everything downstream just consumes
+whatever those functions return.

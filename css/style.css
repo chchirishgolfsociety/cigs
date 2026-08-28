@@ -204,6 +204,26 @@ p { line-height: 1.6; }
 }
 .nav-links a.is-active { color: var(--gold); }
 
+.nav-links a.nav-drawer-logo {
+  padding: 0 28px 20px;
+  border-bottom: none;
+}
+.nav-drawer-logo img { height: 96px; width: auto; }
+
+.nav-links > a:last-of-type { border-bottom: none; }
+
+.nav-drawer-social {
+  display: flex;
+  justify-content: flex-start;
+  gap: 18px;
+  padding: 20px 28px 0;
+}
+.nav-links a.nav-drawer-social-link {
+  padding: 0;
+  border-bottom: none;
+}
+.nav-drawer-social svg { width: 22px; height: 22px; fill: currentColor; }
+
 .nav-scrim {
   position: fixed;
   inset: 0;
@@ -239,6 +259,8 @@ p { line-height: 1.6; }
     padding: 0;
     justify-self: center;
   }
+  .nav-drawer-logo,
+  .nav-drawer-social { display: none; }
   .nav-links a {
     border-bottom: none;
     font-size: 0.95rem;
