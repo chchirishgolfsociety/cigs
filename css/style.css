@@ -200,23 +200,21 @@ p { line-height: 1.6; }
   font-family: var(--font-display);
   font-size: 1.25rem;
   padding: 14px 28px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 .nav-links a.is-active { color: var(--gold); }
 
 .nav-links a.nav-drawer-logo {
-  padding: 0 28px 20px;
-  border-bottom: none;
+  padding: 8px 28px 20px;
 }
-.nav-drawer-logo img { height: 96px; width: auto; }
+.nav-drawer-logo img { height: 86px; width: auto; }
 
-.nav-links > a:last-of-type { border-bottom: none; }
+.nav-links > a:last-of-type { border-bottom: 1px solid rgba(255,255,255,0.08); }
 
 .nav-drawer-social {
   display: flex;
   justify-content: flex-start;
   gap: 18px;
-  padding: 20px 28px 0;
+  padding: 40px 28px 0;
 }
 .nav-links a.nav-drawer-social-link {
   padding: 0;
