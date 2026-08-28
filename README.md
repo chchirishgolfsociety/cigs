@@ -4,10 +4,10 @@ A small, mobile-first, static site. No build step, no backend — just HTML/CSS/
 ready to host on GitHub Pages.
 
 ## Pages
-- `index.html` — Home
+- `index.html` — Home (includes the "who we are" and "get involved" copy that used to live on a separate About page)
 - `race.html` — Race to Hanmer leaderboard (pulls live from your Google Sheet)
 - `events.html` — Event calendar (also pulled from the sheet, links out to Facebook)
-- `about.html` — About the society
+- `honours.html` — Honours Board (past Captains, Race + Match Play winners)
 
 ## How the Race data works
 `race.html` and `events.html` fetch your **"Chch Irish Golf Society 2026"** Google
@@ -31,12 +31,6 @@ The parser expects the same layout as your current Race tab: a header row with
 `PLAYER NAME` in column B and `SCORE` in column C, then one column per event
 starting at column E. If you add or remove columns in that range it'll pick
 them up automatically — just keep column B/C where they are.
-
-## To do before launch
-- [x] **Cook Costello logo** — done (`assets/cook-costello-logo.png`, referenced in every page's `<div class="sponsor-slot">`).
-- [x] **About page copy** — done, real copy about the society and committee is in `about.html`.
-- [x] **Facebook and Instagram links** — done, both point to `chchirishgolfsociety`.
-- [x] **Email address** — done, `chchirishgolfsociety@gmail.com` across all pages.
 
 ## Hosting on GitHub Pages
 1. Create a repo (e.g. `chch-irish-golf`) and push everything in this folder

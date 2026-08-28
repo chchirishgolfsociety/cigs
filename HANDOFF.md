@@ -13,8 +13,10 @@ Sheet as CSV. Built to host on GitHub Pages, with a database backend planned
 as a later phase.
 
 ## Where things stand
-- **Pages built:** Home, Race (live leaderboard), Events (live calendar),
-  About, Honours Board (past Captains/winners).
+- **Pages built:** Home (also carries the "who we are" / "get involved"
+  copy that used to be a separate About page — removed as redundant once
+  it moved to the homepage), Race (live leaderboard), Events (live
+  calendar), Honours Board (past Captains/winners).
 - **Brand assets in place:** club crest (`assets/crest.png`) and the real
   Cook Costello sponsor logo (`assets/cook-costello-logo.png`).
 - **Palette derived from the crest:** deep navy `#10203f` as the site's base
@@ -40,7 +42,6 @@ as a later phase.
 index.html          Home
 race.html            Race to Hanmer leaderboard
 events.html          Event calendar
-about.html            About the society
 honours.html           Honours Board (past Captains, Race + Match Play winners)
 css/style.css         All styles (single stylesheet, CSS custom properties for the palette)
 js/layout.js           Shared header + footer markup, injected into every page

@@ -342,35 +342,6 @@ p { line-height: 1.6; }
 }
 .hero .eyebrow { color: #7fd39c; }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.92rem;
-  padding: 12px 22px;
-  border-radius: 999px;
-  text-decoration: none;
-  border: 2px solid transparent;
-  cursor: pointer;
-}
-.btn-primary {
-  background: var(--gold);
-  color: var(--navy-deep);
-}
-.btn-primary:hover { background: #d8b04a; }
-.btn-ghost {
-  border-color: rgba(255,255,255,0.5);
-  color: var(--white);
-}
-.btn-ghost:hover { border-color: var(--white); }
-.btn-outline {
-  border-color: var(--navy);
-  color: var(--navy);
-}
-.btn-outline:hover { background: var(--navy); color: var(--white); }
-
 /* ============================================
    Sections / cards
    ============================================ */
@@ -378,47 +349,6 @@ section { padding: 56px 0; }
 section + section { border-top: 1px solid var(--line); }
 
 .section-head { margin-bottom: 28px; max-width: 60ch; }
-
-.grid-3 {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 700px) {
-  .grid-3 { grid-template-columns: repeat(3, 1fr); }
-}
-
-.card {
-  background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--line-soft);
-  border-radius: 14px;
-  padding: 22px;
-}
-.card .eyebrow { display: block; margin-bottom: 6px; color: var(--green-deep); }
-.card h1, .card h2, .card h3 { color: var(--ink); }
-
-/* ---------- Social row ---------- */
-.social-row {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-.social-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--line-soft);
-  text-decoration: none;
-  color: var(--navy);
-  font-weight: 600;
-  font-size: 0.9rem;
-  background: var(--white);
-}
-.social-pill svg { width: 18px; height: 18px; fill: currentColor; }
-.social-pill:hover { border-color: var(--green); color: var(--green-deep); }
 
 /* ============================================
    Footer
@@ -441,6 +371,12 @@ section + section { border-top: 1px solid var(--line); }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
 .footer-brand img { height: 34px; }
 .footer-brand span { font-family: var(--font-display); color: var(--white); font-size: 1.05rem; }
+
+.footer-social { display: flex; align-items: center; gap: 14px; }
+.footer-social-label { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
+.footer-social a { display: flex; }
+.footer-social svg { width: 20px; height: 20px; fill: currentColor; }
+.footer-social a:hover svg { fill: var(--gold); }
 .footer-bottom {
   padding-top: 18px;
   font-size: 0.82rem;
