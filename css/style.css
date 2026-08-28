@@ -272,7 +272,7 @@ p { line-height: 1.6; }
   padding: 0;
 }
 .hero-inner {
-  padding: 40px 20px 64px;
+  padding: 52px 20px 64px;
   max-width: var(--container);
   margin: 0 auto;
   display: grid;
@@ -340,7 +340,7 @@ p { line-height: 1.6; }
   color: rgba(255,255,255,0.85);
   font-size: 1.05rem;
 }
-.hero .eyebrow { color: #7fd39c; }
+.hero .eyebrow { color: #7fd39c; margin-top: 0; }
 
 /* ============================================
    Sections / cards
@@ -376,6 +376,7 @@ section + section { border-top: 1px solid var(--line); }
 .footer-social-label { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
 .footer-social a { display: flex; }
 .footer-social svg { width: 20px; height: 20px; fill: currentColor; }
+.footer-social a[aria-label="Email"] svg { width: 25px; height: 25px; }
 .footer-social a:hover svg { fill: var(--gold); }
 .footer-bottom {
   padding-top: 18px;
