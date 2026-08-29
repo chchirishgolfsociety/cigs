@@ -61,6 +61,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     winners.forEach((p) => eventWinCounts.set(p, (eventWinCounts.get(p) || 0) + 1));
   });
 
+  // Whether an event has actually happened yet: true once at least one
+  // player has a real score in that column. Distinguishes "hasn't been
+  // played by anyone yet" (still blank in the table) from "this player
+  // didn't play it" (shown as a dash) — the sheet itself isn't a
+  // reliable way to tell the two apart, since blank-vs-dash there often
+  // just comes down to a column's number formatting rather than intent.
+  const columnPlayed = data.eventCols.map((ec, i) =>
+    data.players.some((p) => {
+      const val = p.cells[i];
+      return val && val !== "-" && !Number.isNaN(parseFloat(val));
+    })
+  );
+
   // Gold stars mark previous Race winners, sourced from the Honours Board
   // (honours.html) rather than the sheet, since that history isn't part
   // of this season's data. Keep this list in sync with that page.
@@ -158,7 +171,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const val = p.cells[i];
         const played = val && val !== "-";
         const isExtra = played && !counting.has(i);
-        return `<td class="${isExtra ? "is-extra" : ""}" ${isExtra ? 'title="Non-counter"' : ""}>${played ? val : "–"}</td>`;
+        const display = played ? val : (columnPlayed[i] ? "-" : "");
+        return `<td class="${isExtra ? "is-extra" : ""}" ${isExtra ? 'title="Non-counter"' : ""}>${display}</td>`;
       })
       .join("");
 
