@@ -26,6 +26,7 @@ document.getElementById("site-header").innerHTML = `
         <a href="index.html">Home</a>
         <a href="events.html">Events</a>
         <a href="race.html">Race</a>
+        <a href="matchplay.html">Match Play</a>
         <a href="honours.html">Honours Board</a>
         <a href="https://www.oneills.com/int_en/shop-by-team/pitch-and-putt/christchurch-irish-golf-society.html" target="_blank" rel="noopener">Pro Shop</a>
         <div class="nav-drawer-social">

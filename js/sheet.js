@@ -11,6 +11,7 @@
 const SHEET_ID = "1-5TZWP6FDgMnofBF5knFpQHcZfkzhdcWdY_X2BDu5Rc";
 const RACE_GID = "436701438";
 const SCHEDULE_SHEET_NAME = "Schedule";
+const MATCHPLAY_SHEET_NAME = "Matchplay";
 
 const MONTHS = {
   jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
@@ -150,4 +151,40 @@ async function fetchSchedule() {
     events.push({ date: parseScheduleDate(row[0]), course, entry, greenFee });
   }
   return events;
+}
+
+/**
+ * Fetches the Matchplay tab and returns a list of
+ * { round, player1, player2, winner }, in sheet order
+ * (rows within a round must stay in bracket order — match 1 and 2
+ * feed match 1 of the next round, 3 and 4 feed match 2, and so on).
+ */
+async function fetchMatchplay() {
+  const res = await fetch(sheetCsvUrlByName(MATCHPLAY_SHEET_NAME));
+  if (!res.ok) throw new Error("Could not load the matchplay draw (" + res.status + ")");
+  const csv = await res.text();
+  const rows = parseCsv(csv);
+
+  const headerIdx = rows.findIndex(
+    (r) => (r[0] || "").trim().toUpperCase() === "ROUND" && (r[1] || "").trim().toUpperCase() === "PLAYER 1"
+  );
+  if (headerIdx === -1) throw new Error("Couldn't find the header row in the matchplay sheet");
+
+  const matches = [];
+  for (let r = headerIdx + 1; r < rows.length; r++) {
+    const row = rows[r];
+    const round = (row[0] || "").trim();
+    const player1 = (row[1] || "").trim();
+    const player2 = (row[2] || "").trim();
+    // A match can be entered before both sides are known (e.g. the Final,
+    // added as soon as one semi-final is decided) — only skip blank rows.
+    if (!round || (!player1 && !player2)) continue;
+    matches.push({
+      round,
+      player1,
+      player2,
+      winner: (row[3] || "").trim(),
+    });
+  }
+  return matches;
 }

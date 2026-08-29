@@ -440,6 +440,17 @@ section + section { border-top: 1px solid var(--line); }
 .race-hero p { color: rgba(255,255,255,0.8); }
 .race-sponsor-line { margin-top: 14px; }
 
+.hero-with-photo {
+  display: grid;
+  gap: 28px;
+}
+@media (min-width: 860px) {
+  .hero-with-photo {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: start;
+  }
+}
+
 .race-status {
   font-size: 0.85rem;
   color: var(--text-dim);
@@ -712,14 +723,6 @@ section + section { border-top: 1px solid var(--line); }
 }
 .honours-table tbody tr:last-child td { border-bottom: none; }
 
-.winner-photos {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 700px) {
-  .winner-photos { grid-template-columns: 1fr 1fr; }
-}
 .winner-photo {
   margin: 0;
   background: var(--surface);
@@ -729,7 +732,7 @@ section + section { border-top: 1px solid var(--line); }
 }
 .winner-photo img {
   width: 100%;
-  height: 280px;
+  height: 220px;
   object-fit: cover;
 }
 .winner-photo figcaption { padding: 14px 18px; }
@@ -746,6 +749,132 @@ section + section { border-top: 1px solid var(--line); }
   font-weight: 600;
   font-size: 1.05rem;
   color: var(--navy);
+}
+
+/* ============================================
+   Match Play bracket
+   ============================================ */
+.bracket-round-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--white);
+  white-space: nowrap;
+}
+.bracket-match {
+  position: relative;
+  align-self: center;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+}
+.bracket-trophy {
+  position: absolute;
+  left: 50%;
+  top: -34px;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.bracket-player {
+  min-height: 1.1em;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bracket-player + .bracket-player { border-top: 1px solid var(--line-soft); }
+.bracket-player.is-winner { color: var(--navy); }
+.bracket-player.is-loser { color: rgba(16, 32, 63, 0.5); font-weight: 500; }
+
+/* Desktop: full grid bracket with connector lines */
+.bracket-desktop {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 8px 8px 16px;
+}
+.bracket-round {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 190px;
+}
+.bracket-round-head { text-align: center; margin-bottom: 16px; }
+.bracket-round-grid { position: relative; display: grid; }
+
+.bracket-match.has-next::after {
+  content: "";
+  position: absolute;
+  right: -16px;
+  width: 16px;
+  border-right: 2px solid var(--line);
+}
+.bracket-match.pair-top.has-next::after {
+  top: 50%;
+  height: var(--connector-half);
+  border-top: 2px solid var(--line);
+}
+.bracket-match.pair-bottom.has-next::after {
+  bottom: 50%;
+  height: var(--connector-half);
+  border-bottom: 2px solid var(--line);
+}
+.bracket-match.has-prev::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 16px;
+  height: 0;
+  border-top: 2px solid var(--line);
+}
+
+/* Mobile: one round per swipeable page */
+.bracket-mobile { display: none; }
+.bracket-mobile-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.bracket-mobile-tab {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--surface);
+  color: rgba(16, 32, 63, 0.6);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.bracket-mobile-tab.is-active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+.bracket-mobile-track {
+  display: flex;
+  transition: transform 0.25s ease;
+}
+.bracket-mobile-page {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+@media (max-width: 859px) {
+  .bracket-desktop { display: none; }
+  .bracket-mobile { display: block; }
+  .bracket-match-trophy { margin-top: 34px; }
 }
 
 /* ---------- Utility ---------- */
