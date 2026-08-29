@@ -20,6 +20,9 @@ document.getElementById("site-header").innerHTML = `
         <a class="nav-drawer-logo" href="index.html">
           <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
         </a>
+        <button type="button" class="nav-drawer-close" aria-label="Close menu">
+          <svg viewBox="0 -960 960 960"><path d="M256-200 200-256l224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>
         <a href="index.html">Home</a>
         <a href="events.html">Events</a>
         <a href="race.html">Race</a>

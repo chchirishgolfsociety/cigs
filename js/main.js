@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.querySelector(".hamburger");
   const navLinks = document.querySelector(".nav-links");
   const scrim = document.querySelector(".nav-scrim");
+  const drawerClose = document.querySelector(".nav-drawer-close");
 
   function closeNav() {
     navLinks?.classList.remove("is-open");
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isOpen ? closeNav() : openNav();
   });
   scrim?.addEventListener("click", closeNav);
+  drawerClose?.addEventListener("click", closeNav);
   navLinks?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeNav));
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeNav(); });
 
