@@ -67,6 +67,8 @@ p { line-height: 1.6; }
   max-width: 1500px;
   margin: 0 auto;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -590,6 +592,9 @@ section + section { border-top: 1px solid var(--line); }
    which would otherwise read as "wide" on width alone — tablets in
    landscape stay tall enough (744px+) to not match this. */
 @media (max-width: 640px), (max-height: 500px) {
+  .leaderboard-table-wrap { order: 1; }
+  .legend { order: 2; margin-top: 14px; }
+
   .leaderboard-table th,
   .leaderboard-table td {
     width: 90px;
@@ -599,6 +604,7 @@ section + section { border-top: 1px solid var(--line); }
   .leaderboard-table thead th { font-size: 0.64rem; }
   .leaderboard-table thead .th-date { font-size: 0.54rem; }
   .lb-stars { font-size: 0.95rem; }
+  .legend .lb-stars { font-size: 1.9rem; }
 
   .leaderboard-table .lb-col-pos {
     width: 34px;
@@ -626,13 +632,10 @@ section + section { border-top: 1px solid var(--line); }
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
-  padding: 10px 14px;
-  background: var(--surface-dim);
-  border-radius: 10px;
   font-size: 0.82rem;
-  color: var(--navy);
+  color: var(--text-dim);
 }
-.rotate-hint svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--navy); }
+.rotate-hint svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--text-dim); }
 @media (min-width: 640px) {
   .rotate-hint { display: none; }
 }

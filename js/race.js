@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   status.textContent = "";
 
   legendEl.innerHTML = `
-    <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner this season</span>
+    <span><span class="lb-stars"><span class="star-event">✪</span></span> Event winner</span>
     <span><span class="lb-stars"><span class="star-winner">✪</span></span> Previous Race winner</span>
     <span><s>00</s> Non-counter</span>
   `;
