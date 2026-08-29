@@ -185,7 +185,7 @@ p { line-height: 1.6; }
   height: 100%;
   width: min(78vw, 300px);
   background: var(--navy-deep);
-  padding: calc(var(--nav-h) + 16px) 0 24px;
+  padding: 138px 0 24px;
   transform: translateX(-100%);
   transition: transform 0.25s ease;
   z-index: 110;
@@ -204,7 +204,10 @@ p { line-height: 1.6; }
 .nav-links a.is-active { color: var(--gold); }
 
 .nav-links a.nav-drawer-logo {
-  padding: 8px 28px 20px;
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  padding: 0;
 }
 .nav-drawer-logo img { height: 86px; width: auto; }
 
