@@ -791,7 +791,8 @@ section + section { border-top: 1px solid var(--line); }
 .bracket-player.is-winner { color: var(--navy); }
 .bracket-player.is-loser { color: rgba(16, 32, 63, 0.5); font-weight: 500; }
 
-/* Desktop: full grid bracket with connector lines */
+/* Full grid bracket with connector lines — wider than a phone screen,
+   so it scrolls horizontally there rather than switching layouts */
 .bracket-desktop {
   display: flex;
   gap: 32px;
@@ -833,48 +834,6 @@ section + section { border-top: 1px solid var(--line); }
   width: 16px;
   height: 0;
   border-top: 2px solid var(--line);
-}
-
-/* Mobile: one round per swipeable page */
-.bracket-mobile { display: none; }
-.bracket-mobile-tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  margin-bottom: 8px;
-}
-.bracket-mobile-tab {
-  flex: 0 0 auto;
-  padding: 8px 14px;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: var(--surface);
-  color: rgba(16, 32, 63, 0.6);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-.bracket-mobile-tab.is-active {
-  background: var(--navy);
-  border-color: var(--navy);
-  color: var(--white);
-}
-.bracket-mobile-track {
-  display: flex;
-  transition: transform 0.25s ease;
-}
-.bracket-mobile-page {
-  flex: 0 0 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-@media (max-width: 859px) {
-  .bracket-desktop { display: none; }
-  .bracket-mobile { display: block; }
-  .bracket-match-trophy { margin-top: 34px; }
 }
 
 /* ---------- Utility ---------- */

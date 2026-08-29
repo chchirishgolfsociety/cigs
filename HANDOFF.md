@@ -20,13 +20,16 @@ possible later phase, not started.
   a separate `about.html`; removed once it became redundant with the
   homepage.
 - **Race** (`race.html`) — Cook Costello Race to Hanmer leaderboard, see
-  "Race leaderboard" below for the interesting parts.
+  "Race leaderboard" below for the interesting parts. Hero includes last
+  year's Race winner photo.
+- **Match Play** (`matchplay.html`) — Knockout bracket, see "Match Play
+  bracket" below for the interesting parts. Hero includes last year's
+  Match Play winner photo.
 - **Events** (`events.html`) — Reads the Schedule tab; shows only planned
   (future) events, soonest first, with the entry price in place of a
   status tag.
 - **Honours Board** (`honours.html`) — Past Captains / Race winners / Match
-  Play winners, hand-maintained (not sheet-driven), plus a small photo
-  section for the previous year's winners.
+  Play winners, hand-maintained (not sheet-driven).
 
 ## Nav & shared chrome (`js/layout.js`)
 Single source for the header and footer, injected into every page via
@@ -37,26 +40,29 @@ everywhere.
 - **Mobile nav**: hamburger left, crest centered, sponsor logo right
   (styled after the Liverpool FC site's layout, per the original brief —
   "navy like Liverpool's red"). The mobile drawer additionally has the
-  crest (96px) at the top and the three social icons at the bottom,
-  hidden on desktop where they'd duplicate the header/footer.
+  crest (top-left) and a close (X) button (top-right), both pinned 28px
+  from their respective edges, and the three social icons at the bottom
+  — all hidden on desktop where they'd duplicate the header/footer.
 - **Footer**: crest + name, social icons (Facebook/Instagram from Simple
   Icons, email from Google Material Symbols) with a "Give us a follow"
   label, copyright line.
-- Nav order: Home, Events, Race, Honours Board, Pro Shop (external link to
-  the club's O'Neills team store).
+- Nav order: Home, Events, Race, Match Play, Honours Board, Pro Shop
+  (external link to the club's O'Neills team store).
 
 ## File map
 ```
-index.html, race.html, events.html, honours.html   The four pages
+index.html, race.html, matchplay.html, events.html, honours.html   The five pages
 css/style.css        Single stylesheet, custom properties for the palette
 js/layout.js          Shared header/footer/nav, injected into every page
 js/main.js             Hamburger open/close, active-link highlighting
-js/sheet.js             Google Sheet fetch + CSV parser (fetchRaceData, fetchSchedule)
+js/sheet.js             Google Sheet fetch + CSV parser (fetchRaceData, fetchSchedule, fetchMatchplay)
 js/race.js               Race table rendering, sorting, stars, positions
+js/matchplay.js           Match Play bracket rendering (desktop grid + mobile carousel)
 js/events.js              Events list rendering
 js/hero-carousel.js        Homepage photo carousel (click/swipe/dots)
 assets/photos/             Homepage carousel photos
 assets/crest.png, cook-costello-logo.png   Club crest, sponsor logo
+assets/2025_race.jpg, 2025_matchplay.jpg   Winner photos shown on race.html / matchplay.html
 assets/countycolours/       Parked feature, see "Known dead-end" below
 ```
 
@@ -69,6 +75,9 @@ All via the Google Sheets `gviz/tq` CSV export — no API key, no backend.
   blank header.
 - `fetchSchedule()` — Schedule tab, looked up by name. Columns: Date,
   Course, Entry, optional Green Fee.
+- `fetchMatchplay()` — Matchplay tab, looked up by name. Columns: Round,
+  Player 1, Player 2, Winner. See "Match Play bracket" below for how the
+  bracket shape is inferred from this flat list.
 
 ## Race leaderboard (`js/race.js`)
 A few things here aren't obvious from just reading the page:
@@ -95,6 +104,36 @@ A few things here aren't obvious from just reading the page:
   `max-height` media-query trick so a phone rotated to landscape (wide but
   short viewport) still gets the compact mobile styling instead of reading
   as "desktop".
+
+## Match Play bracket (`js/matchplay.js`)
+- **Bracket shape**: inferred purely from row order within the Matchplay
+  sheet tab — there's no explicit "feeds into" column. Match 1 & 2 in a
+  round feed match 1 of the next round, 3 & 4 feed match 2, and so on.
+  This means **Player 1 must always be the winner from the top half of a
+  pairing, Player 2 the bottom half** — the page trusts column order and
+  doesn't cross-check against the previous round's results, so a name in
+  the wrong column renders in the wrong half of its box (see the README's
+  Matchplay tab notes).
+- **Layout**: drawn with CSS Grid rather than JS-computed pixel positions,
+  and used unchanged at every viewport width. Every round shares the same
+  row-track grid (`totalRows` = 2 × the first round's match count); a
+  round-*r* match spans `2^(r+1)` row-units and starts at `i * span + 1`,
+  which both centers it between its two feeders and gives a *fixed,
+  computable* distance (`2^r * ROW_UNIT`) between paired matches — that
+  distance is what the `::before`/`::after` connector lines use, so the
+  lines always meet exactly at the midpoint between columns regardless of
+  round depth. `row-gap` is deliberately 0 to keep that math exact.
+- **Mobile**: no separate layout — the bracket is wider than a phone
+  screen, so `.bracket-desktop` just scrolls horizontally
+  (`overflow-x: auto`) rather than switching to a different view. An
+  earlier one-round-per-swipeable-page mobile mode was tried and dropped
+  for being buggy; plain horizontal scroll is simpler and more reliable.
+- **Champion / trophy slot**: once the last round in the sheet has two
+  matches (i.e. it's the Semi Finals and no Final row exists yet),
+  `matchplay.js` auto-inserts an empty placeholder "Final" round so the
+  bracket still reads as a complete tree. Once a real Final row is added
+  to the sheet, that takes over automatically and just gets the trophy
+  icon attached (see the `round.trophy` flag).
 
 ## Brand / design
 - Palette from the crest: deep navy `#10203f` base background (per the
@@ -132,10 +171,10 @@ A few things here aren't obvious from just reading the page:
 1. Fill in the remaining Honours Board Match Play winners.
 2. Decide on a custom domain, if wanted.
 3. When ready for a real backend: swap `fetchRaceData()` /
-   `fetchSchedule()` in `js/sheet.js` for a Supabase/Firebase-backed
-   version, with a simple admin page for entering scores/events — the
-   rest of the site (rendering, styling) shouldn't need to change, since
-   everything downstream already just consumes whatever those functions
-   return.
+   `fetchSchedule()` / `fetchMatchplay()` in `js/sheet.js` for a
+   Supabase/Firebase-backed version, with a simple admin page for
+   entering scores/events/results — the rest of the site (rendering,
+   styling) shouldn't need to change, since everything downstream already
+   just consumes whatever those functions return.
 4. Revisit `assets/countycolours/` if the county-flag feature is wanted
    again (see "Known dead-end" above for what went wrong last time).

@@ -13,7 +13,10 @@ from any personal one — see `HANDOFF.md` for why).
   since a standalone About page became redundant).
 - `race.html` — Cook Costello Race to Hanmer leaderboard. Live from the
   Race tab, sortable, with Pos/Player/Score pinned while event columns
-  scroll horizontally.
+  scroll horizontally. Hero includes last year's Race winner photo.
+- `matchplay.html` — Match Play bracket. Live from the Matchplay tab: a
+  connected bracket on desktop, one round per swipeable page on mobile.
+  Hero includes last year's Match Play winner photo.
 - `events.html` — Upcoming Events. Live from the Schedule tab; only shows
   events that haven't happened yet, with the entry price shown per event.
 - `honours.html` — Honours Board. Past Captains, Race winners, and Match
@@ -49,22 +52,41 @@ no need to touch the website when scores or the schedule change.
   round has one, e.g. the away trips).
 - Date format expected: `25 Jan 26` (day, short month, 2-digit year).
 
+**Matchplay tab** (`fetchMatchplay()`, used by `matchplay.html`):
+- Columns: `Round`, `Player 1`, `Player 2`, `Winner`. One row per match —
+  there's no "feeds into" column, the bracket shape is inferred purely
+  from row order within a round (match 1 & 2 feed match 1 of the next
+  round, 3 & 4 feed match 2, and so on — standard bracket pairing).
+- **Important:** within a round, keep `Player 1` as the winner from the
+  *top* half of that pairing and `Player 2` as the winner from the
+  *bottom* half — the page trusts column order to decide which half of
+  the box a name renders in, it doesn't cross-check against the previous
+  round. Add the next round's row as soon as one side is known (leaving
+  the other player cell blank) so the bracket shows partial progress.
+- Once the draw is down to two Semi Final matches, a "Final" row can be
+  added; the page also auto-inserts an empty placeholder Final slot with
+  a trophy if the sheet doesn't have one yet, so the bracket always reads
+  as a complete tree.
+
 **If you ever replace the sheet or a tab:**
 1. Open the new sheet, click the relevant tab.
 2. Copy the sheet ID from the URL (the string after `/d/`) and the tab's
    `gid` (the number after `gid=` at the end of the URL, for the Race tab).
 3. Update `SHEET_ID` / `RACE_GID` at the top of `js/sheet.js`. The Schedule
-   tab is looked up by name (`sheet=Schedule`), so it only needs updating
-   if you rename that tab.
+   and Matchplay tabs are both looked up by name (`sheet=Schedule` /
+   `sheet=Matchplay`), so they only need updating if you rename those tabs.
 
 ## Honours Board — keeping it in sync
-`honours.html`'s table is hand-edited HTML, not pulled from the sheet. Two
-things need to stay in sync manually when a new Race is won:
-1. Add the new winner's row to the table in `honours.html`.
-2. Add their name to the `PREVIOUS_RACE_WINNERS` list at the top of
-   `js/race.js` — this is what gives a player their gold "previous winner"
-   star on the live leaderboard. Format: `"Surname, First"`, matching how
-   names appear in the Race tab.
+`honours.html`'s table is hand-edited HTML, not pulled from the sheet.
+Things to update manually when a season wraps up:
+1. Add the new year's row to the table in `honours.html`.
+2. Add the Race winner's name to the `PREVIOUS_RACE_WINNERS` list at the
+   top of `js/race.js` — this is what gives a player their gold "previous
+   winner" star on the live leaderboard. Format: `"Surname, First"`,
+   matching how names appear in the Race tab.
+3. Swap the winner photos on `race.html` and `matchplay.html` (in the
+   hero, next to the page title) to the new year's — update the `<img>`
+   src and the caption's name in both files.
 
 ## Editing the shared header/footer/nav
 `js/layout.js` injects the header (crest, nav links, sponsor logo, mobile

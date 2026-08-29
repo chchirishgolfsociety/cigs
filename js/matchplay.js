@@ -5,16 +5,13 @@
    round, match 1 & 2 feed round-below match 1, match 3 & 4 feed
    match 2, and so on (standard single-elimination pairing).
 
-   Desktop draws the classic connected bracket using CSS Grid: a
-   round's matches are placed on a shared row-track grid where
-   each match spans 2x the row-units of the round before it, which
-   both centers it between its two feeders and gives a fixed,
-   computable distance for the connector lines (see ROW_UNIT below).
-
-   Mobile shows one round per swipeable page (same swipe pattern as
-   the homepage hero carousel) since a 4+ column bracket doesn't fit
-   a phone screen — connector lines don't carry across pages, so
-   the mobile view is a plain list per round instead.
+   Drawn with CSS Grid: a round's matches are placed on a shared
+   row-track grid where each match spans 2x the row-units of the
+   round before it, which both centers it between its two feeders
+   and gives a fixed, computable distance for the connector lines
+   (see ROW_UNIT below). The whole thing is wider than a phone
+   screen, so it just scrolls horizontally there rather than having
+   a separate mobile layout.
    ============================================================ */
 
 const ROW_UNIT = 44; // px — half of a first-round match box's row-span (must comfortably fit a two-row match card plus breathing room, since row-gap is 0 to keep the connector-line math exact)
@@ -22,8 +19,6 @@ const ROW_UNIT = 44; // px — half of a first-round match box's row-span (must 
 document.addEventListener("DOMContentLoaded", async () => {
   const status = document.getElementById("matchplay-status");
   const desktopEl = document.getElementById("bracket-desktop");
-  const mobileTabsEl = document.getElementById("bracket-mobile-tabs");
-  const mobileTrackEl = document.getElementById("bracket-mobile-track");
 
   let matches;
   try {
@@ -65,8 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     lastRound.trophy = true;
   }
 
-  buildDesktopBracket(rounds);
-  buildMobileBracket(rounds);
+  buildBracket(rounds);
 
   function playerRow(name, match) {
     const div = document.createElement("div");
@@ -76,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // A non-breaking space (not empty text) keeps a blank row's line-height
     // identical to a populated row's, so placeholder matches match height.
-    div.textContent = name || " ";
+    div.textContent = name || " ";
     return div;
   }
 
@@ -95,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return el;
   }
 
-  function buildDesktopBracket(rounds) {
+  function buildBracket(rounds) {
     const firstRoundCount = rounds[0].matches.length;
     const totalRows = firstRoundCount * 2;
 
@@ -132,45 +126,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       roundEl.appendChild(grid);
       desktopEl.appendChild(roundEl);
-    });
-  }
-
-  function buildMobileBracket(rounds) {
-    rounds.forEach((round, i) => {
-      const tab = document.createElement("button");
-      tab.type = "button";
-      tab.className = "bracket-mobile-tab";
-      tab.textContent = round.name;
-      tab.addEventListener("click", () => goTo(i));
-      mobileTabsEl.appendChild(tab);
-
-      const page = document.createElement("div");
-      page.className = "bracket-mobile-page";
-      round.matches.forEach((match) => page.appendChild(matchEl(match, round)));
-      mobileTrackEl.appendChild(page);
-    });
-
-    const tabs = Array.from(mobileTabsEl.children);
-    let current = 0;
-    tabs[0].classList.add("is-active");
-
-    function goTo(i) {
-      tabs[current].classList.remove("is-active");
-      current = i;
-      tabs[current].classList.add("is-active");
-      mobileTrackEl.style.transform = `translateX(-${current * 100}%)`;
-      tabs[current].scrollIntoView({ inline: "center", block: "nearest" });
-    }
-
-    let touchStartX = null;
-    mobileTrackEl.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    mobileTrackEl.addEventListener("touchend", (e) => {
-      if (touchStartX === null) return;
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      touchStartX = null;
-      if (Math.abs(dx) < 40) return;
-      if (dx < 0 && current < tabs.length - 1) goTo(current + 1);
-      if (dx > 0 && current > 0) goTo(current - 1);
     });
   }
 });
