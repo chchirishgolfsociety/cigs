@@ -68,9 +68,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (match.winner) {
       div.classList.add(name === match.winner ? "is-winner" : "is-loser");
     }
-    // A non-breaking space (not empty text) keeps a blank row's line-height
-    // identical to a populated row's, so placeholder matches match height.
-    div.textContent = name || " ";
+    // A non-breaking space ( ), not a plain space — a plain space is
+    // "collapsible" and renders at near-zero height when it's a block's
+    // only content, which shrank blank rows below a populated row's height.
+    div.textContent = name || " ";
     return div;
   }
 

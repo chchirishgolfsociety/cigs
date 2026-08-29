@@ -57,7 +57,7 @@ document.getElementById("site-footer").innerHTML = `
       <div class="footer-top">
         <div class="footer-brand">
           <img src="assets/crest.png" alt="">
-          <span>Chch Irish Golf Society</span>
+          <span>Christchurch Irish Golf Society</span>
         </div>
         <div class="footer-social">
           <span class="footer-social-label">Give us a follow</span>
