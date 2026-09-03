@@ -420,6 +420,9 @@ section + section { border-top: 1px solid var(--line); }
 .footer-brand { display: flex; align-items: center; gap: 10px; }
 .footer-brand img { height: 34px; }
 .footer-brand span { font-family: var(--font-display); color: var(--white); font-size: 1.05rem; }
+@media (max-width: 640px) {
+  .footer-brand span { display: none; }
+}
 
 .footer-social { display: flex; align-items: center; gap: 14px; }
 .footer-social-label { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
