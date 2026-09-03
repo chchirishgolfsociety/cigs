@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     matches = await fetchMatchplay();
   } catch (err) {
-    status.textContent = "Couldn't load the Match Play draw right now — please try again shortly.";
+    status.textContent = "Couldn't load the Match Play draw right now - please try again shortly.";
     console.error(err);
     return;
   }

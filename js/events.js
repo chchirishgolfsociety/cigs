@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     events = await fetchSchedule();
   } catch (err) {
-    status.textContent = "Couldn't load events right now — check the club Facebook page in the meantime.";
+    status.textContent = "Couldn't load events right now - check the club Facebook page in the meantime.";
     console.error(err);
     return;
   }

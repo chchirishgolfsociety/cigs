@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     data = await fetchRaceData();
   } catch (err) {
-    status.textContent = "Couldn't load the Race sheet right now — please try again shortly.";
+    status.textContent = "Couldn't load the Race sheet right now - please try again shortly.";
     console.error(err);
     return;
   }
