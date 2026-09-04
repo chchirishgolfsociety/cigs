@@ -34,7 +34,16 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Stops mobile browsers auto-boosting text size based on column width
+     (narrow columns, like the hero's two-column grid, get inflated more
+     than wide ones, e.g. section-head paragraphs) -- without this, the
+     same declared font-size can render at visibly different sizes
+     depending on which layout it happens to sit in. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
