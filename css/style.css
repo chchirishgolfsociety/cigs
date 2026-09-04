@@ -337,6 +337,17 @@ p { line-height: 1.6; }
   display: grid;
   gap: 32px;
 }
+@media (min-width: 860px) {
+  .hero-inner {
+    grid-template-columns: 1.1fr 1fr;
+    align-items: start;
+  }
+  /* Capped to a readable measure only when the carousel sits alongside
+     the text — once it folds below on narrower screens, the text should
+     use the full width rather than staying pinned to this column width. */
+  .hero h1 { max-width: 14ch; }
+  .hero .lede { max-width: 46ch; }
+}
 .hero-carousel-track {
   position: relative;
   width: 100%;
@@ -379,7 +390,6 @@ p { line-height: 1.6; }
 .hero h1 {
   color: var(--white);
   font-size: clamp(2rem, 6vw, 3.4rem);
-  max-width: 14ch;
 }
 /* A phone in landscape has a much wider viewport than in portrait, which
    the vw-based clamp above reads as "desktop" and sizes accordingly —
@@ -389,7 +399,6 @@ p { line-height: 1.6; }
   .hero h1 { font-size: 2rem; }
 }
 .hero .lede {
-  max-width: 46ch;
   color: rgba(255,255,255,0.85);
   font-size: 1.05rem;
 }
