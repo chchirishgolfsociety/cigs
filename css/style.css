@@ -337,6 +337,11 @@ p { line-height: 1.6; }
   display: grid;
   gap: 32px;
 }
+/* Grid items default to min-width: auto, which stops them shrinking
+   below their content's natural width -- without this, removing the
+   text's max-width cap (below 860px) can force the whole grid wider
+   than the viewport instead of wrapping/fitting normally. */
+.hero-inner > * { min-width: 0; }
 @media (min-width: 860px) {
   .hero-inner {
     grid-template-columns: 1.1fr 1fr;
