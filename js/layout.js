@@ -14,11 +14,11 @@ document.getElementById("site-header").innerHTML = `
         <span></span>
       </button>
       <a class="nav-brand" href="index.html">
-        <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
+        <img src="assets/crest-small.png" alt="Christchurch Irish Golf Society crest">
       </a>
       <nav class="nav-links" aria-label="Main">
         <a class="nav-drawer-logo" href="index.html">
-          <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
+          <img src="assets/crest-small.png" alt="Christchurch Irish Golf Society crest">
         </a>
         <button type="button" class="nav-drawer-close" aria-label="Close menu">
           <svg viewBox="0 -960 960 960"><path d="M256-200 200-256l224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
@@ -56,7 +56,7 @@ document.getElementById("site-footer").innerHTML = `
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
-          <img src="assets/crest.png" alt="Christchurch Irish Golf Society crest">
+          <img src="assets/crest-small.png" alt="Christchurch Irish Golf Society crest">
           <span>Christchurch Irish Golf Society</span>
         </div>
         <div class="footer-social">
