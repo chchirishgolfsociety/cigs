@@ -207,6 +207,7 @@ p { line-height: 1.6; }
   z-index: 110;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 .nav-links.is-open { transform: translateX(0); }
 
@@ -220,7 +221,7 @@ p { line-height: 1.6; }
 .nav-links a.is-active { color: var(--gold); }
 
 .nav-links a.nav-drawer-logo {
-  position: absolute;
+  position: fixed;
   top: 28px;
   left: 28px;
   padding: 0;
@@ -228,7 +229,7 @@ p { line-height: 1.6; }
 .nav-drawer-logo img { height: 86px; width: auto; }
 
 .nav-drawer-close {
-  position: absolute;
+  position: fixed;
   top: 28px;
   right: 28px;
   width: 28px;
@@ -335,12 +336,6 @@ p { line-height: 1.6; }
   margin: 0 auto;
   display: grid;
   gap: 32px;
-}
-@media (min-width: 860px) {
-  .hero-inner {
-    grid-template-columns: 1.1fr 1fr;
-    align-items: start;
-  }
 }
 .hero-carousel-track {
   position: relative;
