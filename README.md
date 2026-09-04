@@ -1,7 +1,9 @@
 # Christchurch Irish Golf Society — website
 
 A small, mobile-first, static site. No build step, no backend — just HTML/CSS/JS,
-hosted on GitHub Pages at **https://chchirishgolfsociety.github.io/cigs/**.
+hosted on GitHub Pages at **https://chchirishgolfsociety.co.nz/** (registered
+through iwantmyname; the old `https://chchirishgolfsociety.github.io/cigs/`
+URL still works too).
 
 Repo: `github.com/chchirishgolfsociety/cigs` (note: a separate GitHub account
 from any personal one — see `HANDOFF.md` for why).
@@ -15,7 +17,8 @@ from any personal one — see `HANDOFF.md` for why).
   Race tab, sortable, with Pos/Player/Score pinned while event columns
   scroll horizontally. Hero includes last year's Race winner photo.
 - `matchplay.html` — Match Play bracket. Live from the Matchplay tab: a
-  connected bracket on desktop, one round per swipeable page on mobile.
+  connected bracket, same layout at every screen size — it just scrolls
+  horizontally on a phone rather than switching to a different view.
   Hero includes last year's Match Play winner photo.
 - `events.html` — Upcoming Events. Live from the Schedule tab; only shows
   events that haven't happened yet, with the entry price shown per event.
@@ -78,6 +81,7 @@ no need to touch the website when scores or the schedule change.
 
 ## Honours Board — keeping it in sync
 `honours.html`'s table is hand-edited HTML, not pulled from the sheet.
+Columns run Year, Race Winner, Match Play Winner, Captain, Treasurer.
 Things to update manually when a season wraps up:
 1. Add the new year's row to the table in `honours.html`.
 2. Add the Race winner's name to the `PREVIOUS_RACE_WINNERS` list at the
@@ -102,6 +106,36 @@ Already set up — **Settings → Pages → Source → Deploy from branch → `m
 goes live within ~30–60 seconds. Browsers may cache CSS/JS/images for up to
 10 minutes (GitHub Pages' default `Cache-Control: max-age=600`) before
 picking up a change — that's expected and hasn't been worth changing.
+
+### Custom domain
+`chchirishgolfsociety.co.nz` is registered with **iwantmyname** and set as
+the custom domain in Pages settings, which maintains the `CNAME` file at the
+repo root (don't hand-edit it — change the domain via the Pages settings UI
+and let GitHub commit the update). DNS records at iwantmyname:
+- Apex (`@`) — four A records to GitHub Pages' IPs: `185.199.108.153`,
+  `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+- `www` — CNAME to `chchirishgolfsociety.github.io`.
+
+Both the apex and `www` resolve and serve over HTTPS (GitHub auto-issued the
+certificate once DNS checked out; "Enforce HTTPS" is on in Pages settings).
+If GitHub ever shows "improperly configured" / can't retrieve DNS, it
+usually just means it hasn't re-checked yet — re-save the custom domain
+field in Pages settings, or as a last resort remove and re-add it to force
+a fresh check.
+
+**Corporate network gotcha:** some workplace security gateways (Netskope,
+Zscaler, Palo Alto, etc.) flag brand-new or low-traffic domains as
+"uncategorised" and route them through browser isolation (read-only,
+clipboard/downloads disabled) until their URL-reputation database gets
+around to classifying it — which for a small site can take a long time, or
+never happen on its own. This is a per-vendor, per-workplace classification
+issue, not anything wrong with the site, and doesn't affect ordinary
+visitors. Zscaler, Palo Alto, Cisco Talos, Fortinet, Forcepoint, and
+BrightCloud all have free public "look up this URL" tools that also let
+the site owner request recategorization; Netskope's equivalent
+(`netskope.com/url-lookup`) is customer-gated, so getting unblocked on a
+Netskope-protected network means asking that workplace's IT/security team
+to report the miscategorization from their own admin console.
 
 ## Local preview
 Because the Race/Events pages `fetch()` data, opening the HTML files

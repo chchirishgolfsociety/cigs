@@ -6,11 +6,13 @@ behind the decisions so far, and what's still open.
 
 ## What this is
 A mobile-first static website for the Christchurch Irish Golf Society,
-hosted on GitHub Pages at `chchirishgolfsociety.github.io/cigs` under a
-dedicated GitHub account (`chchirishgolfsociety`, separate from the user's
-personal account, created deliberately for this project). No backend — the
-Race and Events pages read live from the club's Google Sheet as CSV; the
-Honours Board is manually maintained HTML. A database backend is a
+hosted on GitHub Pages under a dedicated GitHub account
+(`chchirishgolfsociety`, separate from the user's personal account, created
+deliberately for this project) and served at the custom domain
+`chchirishgolfsociety.co.nz` (registered through iwantmyname; see
+README.md's "Custom domain" section for the DNS/CNAME setup). No backend —
+the Race and Events pages read live from the club's Google Sheet as CSV;
+the Honours Board is manually maintained HTML. A database backend is a
 possible later phase, not started.
 
 ## Pages
@@ -43,9 +45,9 @@ everywhere.
   crest (top-left) and a close (X) button (top-right), both pinned 28px
   from their respective edges, and the three social icons at the bottom
   — all hidden on desktop where they'd duplicate the header/footer.
-- **Footer**: crest + name, social icons (Facebook/Instagram from Simple
-  Icons, email from Google Material Symbols) with a "Give us a follow"
-  label, copyright line.
+- **Footer**: crest + name (name hidden below 640px — mobile shows just the
+  crest), social icons (Facebook/Instagram from Simple Icons, email from
+  Google Material Symbols) with a "Get in touch" label, copyright line.
 - Nav order: Home, Events, Race, Match Play, Honours Board, Pro Shop
   (external link to the club's O'Neills team store).
 
@@ -57,7 +59,7 @@ js/layout.js          Shared header/footer/nav, injected into every page
 js/main.js             Hamburger open/close, active-link highlighting
 js/sheet.js             Google Sheet fetch + CSV parser (fetchRaceData, fetchSchedule, fetchMatchplay)
 js/race.js               Race table rendering, sorting, stars, positions
-js/matchplay.js           Match Play bracket rendering (desktop grid + mobile carousel)
+js/matchplay.js           Match Play bracket rendering (CSS Grid, same layout at every width)
 js/events.js              Events list rendering
 js/hero-carousel.js        Homepage photo carousel (click/swipe/dots)
 assets/photos/             Homepage carousel photos
@@ -104,6 +106,14 @@ A few things here aren't obvious from just reading the page:
   `max-height` media-query trick so a phone rotated to landscape (wide but
   short viewport) still gets the compact mobile styling instead of reading
   as "desktop".
+- **Dash vs. blank in event columns**: don't trust the sheet's raw cell
+  text to decide this — a "didn't play" cell sometimes has a literal `-`
+  typed in and sometimes is genuinely empty with a custom number format
+  that only *displays* as `-` in Sheets (that formatting doesn't survive
+  the CSV export, so it reads back as blank either way). `race.js` instead
+  marks a column as "played" once *any* player has a real score in it —
+  blank cells in a played column render as `-`, blank cells in a column
+  nobody's played yet stay genuinely blank.
 
 ## Match Play bracket (`js/matchplay.js`)
 - **Bracket shape**: inferred purely from row order within the Matchplay
@@ -160,16 +170,23 @@ A few things here aren't obvious from just reading the page:
 
 ## Open items
 - **Honours Board — Match Play winners** for years before 2024 are still
-  marked "—"; need the committee to confirm.
-- **Domain / hosting** — still on the default `github.io` URL, no custom
-  domain decided.
+  marked "-"; need the committee to confirm.
+- **Corporate network false positives** — some workplace security gateways
+  flag `chchirishgolfsociety.co.nz` as "uncategorised" (a new/low-traffic
+  domain their URL-reputation database hasn't classified yet) and serve it
+  through browser isolation. Confirmed happening on a Netskope-protected
+  network. Not a site bug — see README.md's "Custom domain" section for
+  what this is and how to get a domain recategorized per-vendor.
 - **Cache-busting** — GitHub Pages caches static assets for ~10 minutes by
   default; explicitly decided *not* worth adding version-string cache
   busting for this site's traffic pattern.
 
 ## Suggested next steps
 1. Fill in the remaining Honours Board Match Play winners.
-2. Decide on a custom domain, if wanted.
+2. Submit `chchirishgolfsociety.co.nz` to the major URL-reputation lookup
+   tools (Zscaler, Palo Alto, Cisco Talos, Fortinet, Forcepoint,
+   BrightCloud — see README.md) to get ahead of the corporate-gateway
+   false-positive issue before it comes up elsewhere.
 3. When ready for a real backend: swap `fetchRaceData()` /
    `fetchSchedule()` / `fetchMatchplay()` in `js/sheet.js` for a
    Supabase/Firebase-backed version, with a simple admin page for
